@@ -116,7 +116,16 @@ public partial class PluginMarketViewModel : ObservableObject
             {
                 foreach (var item in items)
                 {
-                    Results.Add(item);
+                    Results.Add(new MarketItem
+                    {
+                        Id = item.Id,
+                        Title = item.Title,
+                        Description = item.Description,
+                        Icon = item.Icon,
+                        Author = item.Author,
+                        Downloads = item.Downloads,
+                        Source = item.Source
+                    });
                 }
             }
         }
@@ -145,7 +154,14 @@ public partial class PluginMarketViewModel : ObservableObject
             {
                 foreach (var v in versions)
                 {
-                    Versions.Add(v);
+                    Versions.Add(new MarketVersion
+                    {
+                        Id = v.Id,
+                        Name = v.Name,
+                        VersionNumber = v.VersionNumber,
+                        GameVersion = v.GameVersion,
+                        Loader = v.Loader
+                    });
                 }
             }
         }

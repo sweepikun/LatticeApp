@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-    <AvaloniaXaml Include="Styles\**\*.axaml" />
+    <AvaloniaXaml Include="**\*.axaml" Exclude="bin\**;obj\**" />
   </ItemGroup>
 
   <ItemGroup>

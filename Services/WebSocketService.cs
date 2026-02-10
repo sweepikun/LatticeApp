@@ -50,8 +50,9 @@ public class WebSocketService : IDisposable
         {
             try
             {
+                if (string.IsNullOrEmpty(msg.Text)) return;
                 var message = JsonSerializer.Deserialize<JsonElement>(msg.Text);
-                if (message == null) return;
+                if (message.ValueKind == JsonValueKind.Undefined) return;
 
                 var type = message.GetProperty("type").GetString();
                 
