@@ -1,0 +1,119 @@
+name: Build Frontend
+
+on:
+  push:
+    branches: [main, master]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build:
+    name: Build (${{ matrix.runtime }})
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            runtime: win-x64
+            artifact: LatticeApp-win-x64
+          - os: windows-latest
+            runtime: win-arm64
+            artifact: LatticeApp-win-arm64
+          - os: ubuntu-latest
+            runtime: linux-x64
+            artifact: LatticeApp-linux-x64
+          - os: ubuntu-latest
+            runtime: linux-arm64
+            artifact: LatticeApp-linux-arm64
+          - os: macos-latest
+            runtime: osx-x64
+            artifact: LatticeApp-osx-x64
+          - os: macos-latest
+            runtime: osx-arm64
+            artifact: LatticeApp-osx-arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish Lattice.csproj -c Release -r ${{ matrix.runtime }} --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o ./publish
+
+      - name: Create archive (Windows)
+        if: runner.os == 'Windows'
+        run: Compress-Archive -Path ./publish/* -DestinationPath ${{ matrix.artifact }}.zip
+
+      - name: Create archive (Unix)
+        if: runner.os != 'Windows'
+        run: tar -czf ${{ matrix.artifact }}.tar.gz -C ./publish .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            ${{ matrix.artifact }}.zip
+            ${{ matrix.artifact }}.tar.gz
+          retention-days: 30
+          if-no-files-found: ignore
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: LatticeApp ${{ github.ref_name }}
+          body: |
+            ## LatticeApp ${{ github.ref_name }}
+            
+            Minecraft Server Management Panel - Desktop Client
+            
+            ### Downloads
+            
+            | Platform | Architecture | File |
+            |----------|-------------|------|
+            | Windows | x64 | `LatticeApp-win-x64.zip` |
+            | Windows | ARM64 | `LatticeApp-win-arm64.zip` |
+            | Linux | x64 | `LatticeApp-linux-x64.tar.gz` |
+            | Linux | ARM64 | `LatticeApp-linux-arm64.tar.gz` |
+            | macOS | x64 | `LatticeApp-osx-x64.zip` |
+            | macOS | ARM64 | `LatticeApp-osx-arm64.zip` |
+            
+            ### Requirements
+            - Backend server running (see latticeapp-backend repo)
+            - .NET 8 runtime (if not using self-contained build)
+          files: artifacts/**/*
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}
