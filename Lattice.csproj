@@ -8,6 +8,7 @@
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <RootNamespace>Lattice</RootNamespace>
     <AssemblyName>Lattice</AssemblyName>
+    <EnableDefaultAvaloniaItems>false</EnableDefaultAvaloniaItems>
   </PropertyGroup>
 
   <ItemGroup>
