@@ -1,0 +1,161 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Light Theme - 粉蓝清新 -->
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <!-- 基础色 -->
+            <Color x:Key="SystemAccentColor">#FF6B9D</Color>
+            <Color x:Key="SystemAccentColorLight">#7DD3FC</Color>
+            <Color x:Key="SystemAccentColorDark">#EC4899</Color>
+            
+            <!-- 背景色 -->
+            <Color x:Key="LayerFillColorDefault">#FAFAFA</Color>
+            <Color x:Key="LayerFillColorAlt">#F3F3F3</Color>
+            <Color x:Key="LayerFillColorSecondary">#EFEFEF</Color>
+            <Color x:Key="LayerFillColorTertiary">#F9F9F9</Color>
+            
+            <!-- 表面色 -->
+            <Color x:Key="CardBackground">#FFFFFF</Color>
+            <Color x:Key="CardBackgroundHover">#F5F5F5</Color>
+            <Color x:Key="SidebarBackground">#F8F8F8</Color>
+            
+            <!-- 文字色 -->
+            <Color x:Key="TextFillColorPrimary">#1A1A1A</Color>
+            <Color x:Key="TextFillColorSecondary">#5C5C5C</Color>
+            <Color x:Key="TextFillColorTertiary">#8A8A8A</Color>
+            <Color x:Key="TextFillColorDisabled">#C4C4C4</Color>
+            
+            <!-- 边框色 -->
+            <Color x:Key="CardStrokeColorDefault">#E5E5E5</Color>
+            <Color x:Key="CardStrokeColorSecondary">#EBEBEB</Color>
+            <Color x:Key="SurfaceStrokeColorDefault">#D1D1D1</Color>
+            
+            <!-- 状态色 -->
+            <Color x:Key="SystemSuccessColor">#10B981</Color>
+            <Color x:Key="SystemWarningColor">#F59E0B</Color>
+            <Color x:Key="SystemErrorColor">#EF4444</Color>
+            <Color x:Key="SystemInfoColor">#3B82F6</Color>
+            
+            <!-- 语义色 -->
+            <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource LayerFillColorDefault}"/>
+            <SolidColorBrush x:Key="CardBrush" Color="{StaticResource CardBackground}"/>
+            <SolidColorBrush x:Key="SidebarBrush" Color="{StaticResource SidebarBackground}"/>
+            <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource SystemAccentColor}"/>
+            <SolidColorBrush x:Key="AccentLightBrush" Color="{StaticResource SystemAccentColorLight}"/>
+            <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextFillColorSecondary}"/>
+            <SolidColorBrush x:Key="TextTertiaryBrush" Color="{StaticResource TextFillColorTertiary}"/>
+            <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource CardStrokeColorDefault}"/>
+            <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource CardStrokeColorSecondary}"/>
+            
+            <!-- 特殊效果 -->
+            <SolidColorBrush x:Key="AcrylicBackgroundBrush" Color="#80FFFFFF"/>
+            <SolidColorBrush x:Key="MicaBackgroundBrush" Color="#F3F3F3"/>
+            
+            <!-- 按钮色 -->
+            <SolidColorBrush x:Key="ButtonBackground" Color="Transparent"/>
+            <SolidColorBrush x:Key="ButtonBackgroundHover" Color="#F5F5F5"/>
+            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#EBEBEB"/>
+            <SolidColorBrush x:Key="AccentButtonBackground" Color="{StaticResource SystemAccentColor}"/>
+            <SolidColorBrush x:Key="AccentButtonBackgroundHover" Color="{StaticResource SystemAccentColorDark}"/>
+            
+            <!-- 状态色画刷 -->
+            <SolidColorBrush x:Key="StatusRunningBrush" Color="{StaticResource SystemSuccessColor}"/>
+            <SolidColorBrush x:Key="StatusStartingBrush" Color="{StaticResource SystemWarningColor}"/>
+            <SolidColorBrush x:Key="StatusStoppedBrush" Color="{StaticResource TextFillColorTertiary}"/>
+            <SolidColorBrush x:Key="StatusErrorBrush" Color="{StaticResource SystemErrorColor}"/>
+        </ResourceDictionary>
+        
+        <!-- Dark Theme - 粉蓝霓虹 -->
+        <ResourceDictionary x:Key="Dark">
+            <!-- 基础色 -->
+            <Color x:Key="SystemAccentColor">#FF6B9D</Color>
+            <Color x:Key="SystemAccentColorLight">#7DD3FC</Color>
+            <Color x:Key="SystemAccentColorDark">#F472B6</Color>
+            
+            <!-- 背景色 -->
+            <Color x:Key="LayerFillColorDefault">#202020</Color>
+            <Color x:Key="LayerFillColorAlt">#1C1C1C</Color>
+            <Color x:Key="LayerFillColorSecondary">#282828</Color>
+            <Color x:Key="LayerFillColorTertiary">#232323</Color>
+            
+            <!-- 表面色 -->
+            <Color x:Key="CardBackground">#2D2D2D</Color>
+            <Color x:Key="CardBackgroundHover">#363636</Color>
+            <Color x:Key="SidebarBackground">#1A1A1A</Color>
+            
+            <!-- 文字色 -->
+            <Color x:Key="TextFillColorPrimary">#FFFFFF</Color>
+            <Color x:Key="TextFillColorSecondary">#C5C5C5</Color>
+            <Color x:Key="TextFillColorTertiary">#8A8A8A</Color>
+            <Color x:Key="TextFillColorDisabled">#4C4C4C</Color>
+            
+            <!-- 边框色 -->
+            <Color x:Key="CardStrokeColorDefault">#3D3D3D</Color>
+            <Color x:Key="CardStrokeColorSecondary">#333333</Color>
+            <Color x:Key="SurfaceStrokeColorDefault">#474747</Color>
+            
+            <!-- 状态色 -->
+            <Color x:Key="SystemSuccessColor">#34D399</Color>
+            <Color x:Key="SystemWarningColor">#FBBF24</Color>
+            <Color x:Key="SystemErrorColor">#F87171</Color>
+            <Color x:Key="SystemInfoColor">#60A5FA</Color>
+            
+            <!-- 语义色 -->
+            <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource LayerFillColorDefault}"/>
+            <SolidColorBrush x:Key="CardBrush" Color="{StaticResource CardBackground}"/>
+            <SolidColorBrush x:Key="SidebarBrush" Color="{StaticResource SidebarBackground}"/>
+            <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource SystemAccentColor}"/>
+            <SolidColorBrush x:Key="AccentLightBrush" Color="{StaticResource SystemAccentColorLight}"/>
+            <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextFillColorSecondary}"/>
+            <SolidColorBrush x:Key="TextTertiaryBrush" Color="{StaticResource TextFillColorTertiary}"/>
+            <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource CardStrokeColorDefault}"/>
+            <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource CardStrokeColorSecondary}"/>
+            
+            <!-- 特殊效果 -->
+            <SolidColorBrush x:Key="AcrylicBackgroundBrush" Color="#80000000"/>
+            <SolidColorBrush x:Key="MicaBackgroundBrush" Color="#202020"/>
+            
+            <!-- 按钮色 -->
+            <SolidColorBrush x:Key="ButtonBackground" Color="Transparent"/>
+            <SolidColorBrush x:Key="ButtonBackgroundHover" Color="#2A2A2A"/>
+            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#333333"/>
+            <SolidColorBrush x:Key="AccentButtonBackground" Color="{StaticResource SystemAccentColor}"/>
+            <SolidColorBrush x:Key="AccentButtonBackgroundHover" Color="{StaticResource SystemAccentColorDark}"/>
+            
+            <!-- 状态色画刷 -->
+            <SolidColorBrush x:Key="StatusRunningBrush" Color="{StaticResource SystemSuccessColor}"/>
+            <SolidColorBrush x:Key="StatusStartingBrush" Color="{StaticResource SystemWarningColor}"/>
+            <SolidColorBrush x:Key="StatusStoppedBrush" Color="{StaticResource TextFillColorTertiary}"/>
+            <SolidColorBrush x:Key="StatusErrorBrush" Color="{StaticResource SystemErrorColor}"/>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+    
+    <!-- 通用样式 -->
+    <x:Double x:Key="ControlCornerRadius">8</x:Double>
+    <x:Double x:Key="OverlayCornerRadius">12</x:Double>
+    <x:Double x:Key="CardCornerRadius">8</x:Double>
+    
+    <!-- 间距 -->
+    <x:Double x:Key="SpacingXSmall">4</x:Double>
+    <x:Double x:Key="SpacingSmall">8</x:Double>
+    <x:Double x:Key="SpacingMedium">16</x:Double>
+    <x:Double x:Key="SpacingLarge">24</x:Double>
+    <x:Double x:Key="SpacingXLarge">32</x:Double>
+    
+    <!-- 字号 -->
+    <x:Double x:Key="FontSizeCaption">12</x:Double>
+    <x:Double x:Key="FontSizeBody">14</x:Double>
+    <x:Double x:Key="FontSizeSubtitle">16</x:Double>
+    <x:Double x:Key="FontSizeTitle">20</x:Double>
+    <x:Double x:Key="FontSizeTitleLarge">24</x:Double>
+    <x:Double x:Key="FontSizeDisplay">32</x:Double>
+    
+    <!-- 字重 -->
+    <FontWeight x:Key="FontWeightNormal">Normal</FontWeight>
+    <FontWeight x:Key="FontWeightMedium">Medium</FontWeight>
+    <FontWeight x:Key="FontWeightSemiBold">SemiBold</FontWeight>
+    <FontWeight x:Key="FontWeightBold">Bold</FontWeight>
+</ResourceDictionary>

@@ -1,0 +1,149 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Lattice.ViewModels"
+             x:Class="Lattice.Views.Dashboard.ServerListView"
+             x:DataType="vm:ServerListViewModel">
+    
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Classes="lattice-sidebar" Padding="16">
+            <StackPanel Spacing="4">
+                <!-- Logo -->
+                <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,24">
+                    <Border Width="36" Height="36" CornerRadius="8" 
+                            Background="{DynamicResource AccentBrush}">
+                        <TextBlock Text="L" FontSize="18" FontWeight="Bold" 
+                                   Foreground="White" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="Lattice" FontSize="20" FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+                
+                <!-- Navigation -->
+                <Button Content="Servers" Classes="nav-item active"
+                        HorizontalAlignment="Stretch"/>
+                <Button Content="Console" Classes="nav-item"
+                        HorizontalAlignment="Stretch"/>
+                <Button Content="Files" Classes="nav-item"
+                        HorizontalAlignment="Stretch"/>
+                <Button Content="Plugins" Classes="nav-item"
+                        HorizontalAlignment="Stretch"/>
+                <Button Content="AI Assistant" Classes="nav-item"
+                        HorizontalAlignment="Stretch"/>
+                <Button Content="Settings" Classes="nav-item"
+                        HorizontalAlignment="Stretch"/>
+                
+                <!-- Divider -->
+                <Border Height="1" Background="{DynamicResource DividerBrush}" 
+                        Margin="0,16"/>
+                
+                <!-- User info -->
+                <StackPanel Margin="4,8">
+                    <TextBlock Text="{Binding CurrentUser.Username}" 
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               FontSize="13"/>
+                    <TextBlock Text="{Binding CurrentUser.Role}" 
+                               Foreground="{DynamicResource AccentBrush}"
+                               FontSize="12" Margin="0,2,0,0"/>
+                </StackPanel>
+                
+                <Button Content="Sign out" Command="{Binding LogoutCommand}"
+                        Classes="nav-item" HorizontalAlignment="Stretch"
+                        Margin="0,8,0,0"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Main Content -->
+        <Border Grid.Column="1" Padding="32">
+            <ScrollViewer>
+                <StackPanel Spacing="24">
+                    <!-- Header -->
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Servers" Classes="title-large"/>
+                            <TextBlock Text="Manage your Minecraft servers" 
+                                       Classes="caption" Margin="0,4,0,0"/>
+                        </StackPanel>
+                        <Button Content="+ Create Server" Command="{Binding CreateServerCommand}"
+                                Classes="lattice-accent" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- Error Message -->
+                    <TextBlock Text="{Binding ErrorMessage}" 
+                               Foreground="{DynamicResource StatusErrorBrush}"
+                               IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+                    <!-- Loading -->
+                    <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}"
+                                 Height="2" HorizontalAlignment="Stretch"/>
+
+                    <!-- Server List -->
+                    <ItemsControl ItemsSource="{Binding Servers}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Classes="lattice-card" Margin="0,0,0,12"
+                                        PointerPressed="ServerItem_PointerPressed"
+                                        Cursor="Hand">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <StackPanel Spacing="4">
+                                            <TextBlock Text="{Binding Name}" 
+                                                       Classes="title"
+                                                       FontSize="16"/>
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <TextBlock Classes="caption">
+                                                    <Run Text="{Binding Type}"/>
+                                                    <Run Text="•"/>
+                                                    <Run Text="{Binding Version}"/>
+                                                    <Run Text="•"/>
+                                                    <Run Text=":"/>
+                                                    <Run Text="{Binding Port}"/>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <Border Classes="status-badge" 
+                                                VerticalAlignment="Center">
+                                            <Border.Classes>
+                                                <x:String x:Key="status-stopped">status-stopped</x:String>
+                                            </Border.Classes>
+                                            <TextBlock Text="{Binding Status}" 
+                                                       Foreground="White" FontSize="12"
+                                                       FontWeight="Medium"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!-- Empty State -->
+                    <StackPanel Spacing="16" HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" Margin="0,64"
+                                IsVisible="{Binding Servers.Count, Converter={x:Static ObjectConverters.AreEqual}, ConverterParameter=0}">
+                        <Border Width="64" Height="64" CornerRadius="16"
+                                Background="{DynamicResource CardBrush}"
+                                HorizontalAlignment="Center">
+                            <TextBlock Text="📦" FontSize="28" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="No servers yet" Classes="title"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Create your first server to get started" 
+                                   Classes="caption"
+                                   HorizontalAlignment="Center"/>
+                        <Button Content="Create Server" Command="{Binding CreateServerCommand}"
+                                Classes="lattice-accent"
+                                HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>

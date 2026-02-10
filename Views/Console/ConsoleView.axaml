@@ -1,0 +1,81 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Lattice.ViewModels"
+             x:Class="Lattice.Views.Console.ConsoleView"
+             x:DataType="vm:ConsoleViewModel">
+    
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Classes="lattice-sidebar" BorderThickness="0,0,0,1" Padding="16">
+            <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                <Button Content="← Back" Command="{Binding GoBackCommand}"
+                        Classes="lattice-ghost"/>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal" 
+                            Spacing="12" Margin="16,0,0,0">
+                    <TextBlock Text="{Binding Server.Name}" Classes="title"
+                               VerticalAlignment="Center"/>
+                    <Border Classes="status-badge" 
+                            VerticalAlignment="Center"
+                            CornerRadius="6" Padding="10,4">
+                        <TextBlock Text="{Binding Server.Status}" 
+                                   Foreground="White" FontSize="12"/>
+                    </Border>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                    <Button Content="Start" Command="{Binding StartCommand}"
+                            Classes="lattice-success"/>
+                    <Button Content="Stop" Command="{Binding StopCommand}"
+                            Classes="lattice-danger"/>
+                </StackPanel>
+                
+                <Button Grid.Column="3" Content="Clear" Command="{Binding ClearLogsCommand}"
+                        Classes="lattice-ghost" Margin="8,0,0,0"/>
+            </Grid>
+        </Border>
+
+        <!-- Log Area -->
+        <Border Grid.Row="1" Background="#0D0D0D" Margin="0">
+            <ScrollViewer Padding="12" x:Name="LogScrollViewer">
+                <ItemsControl ItemsSource="{Binding Logs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Text}" 
+                                       Foreground="#E0E0E0"
+                                       FontFamily="Cascadia Code,Consolas,Monaco,monospace" 
+                                       FontSize="12"
+                                       TextWrapping="Wrap" 
+                                       Margin="0,1"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Command Input -->
+        <Border Grid.Row="2" Classes="lattice-card" BorderThickness="0,1,0,0" 
+                Padding="16" CornerRadius="0">
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBox Grid.Column="0" 
+                         Watermark="Enter command..." 
+                         Text="{Binding CommandInput}"
+                         CornerRadius="8" Padding="14,12"
+                         KeyDown="OnCommandKeyDown"/>
+                <Button Grid.Column="1" Content="Send" 
+                        Command="{Binding SendCommandCommand}"
+                        Classes="lattice-accent"
+                        Padding="20,12" Margin="12,0,0,0"/>
+            </Grid>
+        </Border>
+
+        <ProgressBar Grid.Row="1" IsIndeterminate="True" IsVisible="{Binding IsLoading}"
+                     VerticalAlignment="Top" Height="2"/>
+    </Grid>
+</UserControl>

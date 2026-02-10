@@ -1,0 +1,94 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Lattice.ViewModels"
+             x:Class="Lattice.Views.Dashboard.ServerDetailView"
+             x:DataType="vm:ServerDetailViewModel">
+    
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <ScrollViewer Padding="32">
+            <StackPanel Spacing="24" MaxWidth="800">
+                <!-- Header -->
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <Button Content="← Back" Command="{Binding GoBackCommand}"
+                            Classes="lattice-ghost"/>
+                </StackPanel>
+
+                <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="2"/>
+
+                <!-- Server Card -->
+                <Border Classes="lattice-card" IsVisible="{Binding Server, Converter={x:Static ObjectConverters.IsNotNull}}">
+                    <StackPanel Spacing="20">
+                        <!-- Server Info -->
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{Binding Server.Name}" Classes="title-large"/>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Classes="caption">
+                                        <Run Text="{Binding Server.Type}"/>
+                                        <Run Text="•"/>
+                                        <Run Text="{Binding Server.Version}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                            <Border Classes="status-badge status-badge" 
+                                    VerticalAlignment="Center"
+                                    CornerRadius="8" Padding="14,6">
+                                <TextBlock Text="{Binding Server.Status}" 
+                                           Foreground="White" FontSize="14"
+                                           FontWeight="Medium"/>
+                            </Border>
+                        </Grid>
+
+                        <!-- Stats -->
+                        <Grid ColumnDefinitions="*,24,*" Margin="0,8,0,0">
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Port" Classes="caption"/>
+                                <TextBlock Text="{Binding Server.Port}" 
+                                           Classes="body" FontWeight="Medium"
+                                           Margin="0,4,0,0"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Max Memory" Classes="caption"/>
+                                <TextBlock Text="{Binding Server.MaxMemory}" 
+                                           Classes="body" FontWeight="Medium"
+                                           Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Separator Classes="lattice"/>
+
+                        <!-- Actions -->
+                        <StackPanel Spacing="16">
+                            <TextBlock Text="Quick Actions" Classes="body" FontWeight="Medium"/>
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <Button Content="Open Console" Command="{Binding OpenConsoleCommand}"
+                                        Classes="lattice-accent"/>
+                                <Button Content="Start" Command="{Binding StartCommand}"
+                                        Classes="lattice-success"/>
+                                <Button Content="Stop" Command="{Binding StopCommand}"
+                                        Classes="lattice-danger"/>
+                                <Button Content="Restart" Command="{Binding RestartCommand}"
+                                        Classes="lattice-ghost"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Separator Classes="lattice"/>
+
+                        <!-- Danger Zone -->
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="Danger Zone" Classes="body" FontWeight="Medium"
+                                       Foreground="{DynamicResource StatusErrorBrush}"/>
+                            <Button Content="Delete Server" Command="{Binding DeleteCommand}"
+                                    Classes="lattice-danger"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Error -->
+                <TextBlock Text="{Binding ErrorMessage}" 
+                           Foreground="{DynamicResource StatusErrorBrush}"
+                           IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

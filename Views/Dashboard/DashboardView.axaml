@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Lattice.ViewModels"
+             x:Class="Lattice.Views.Dashboard.DashboardView"
+             x:DataType="vm:DashboardViewModel">
+    
+    <Grid Background="#1a1a2e">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="#16213e" Padding="16">
+            <StackPanel Spacing="8">
+                <TextBlock Text="Lattice" FontSize="24" FontWeight="Bold"
+                           Foreground="#4cc9f0" Margin="0,0,0,24"/>
+                
+                <Button Content="Servers" HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left" Padding="12,8"
+                        Background="#1a1a2e" Foreground="White" CornerRadius="4"/>
+                <Button Content="Console" HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left" Padding="12,8"
+                        Background="Transparent" Foreground="#888" CornerRadius="4"/>
+                <Button Content="Files" HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left" Padding="12,8"
+                        Background="Transparent" Foreground="#888" CornerRadius="4"/>
+                <Button Content="Plugins" HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left" Padding="12,8"
+                        Background="Transparent" Foreground="#888" CornerRadius="4"/>
+                <Button Content="AI Assistant" HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left" Padding="12,8"
+                        Background="Transparent" Foreground="#888" CornerRadius="4"/>
+                <Button Content="Settings" HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left" Padding="12,8"
+                        Background="Transparent" Foreground="#888" CornerRadius="4"/>
+                
+                <Border Height="1" Background="#2a2a4a" Margin="0,16"/>
+                
+                <TextBlock Text="{Binding CurrentUser.Username}" Foreground="#888"
+                           FontSize="12" Margin="0,8"/>
+                <TextBlock Text="{Binding CurrentUser.Role}" Foreground="#4cc9f0"
+                           FontSize="11"/>
+                
+                <Button Content="Sign Out" Command="{Binding LogoutCommand}"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                        Padding="12,8" Background="Transparent" Foreground="#ff6b6b"
+                        CornerRadius="4" Margin="0,16,0,0"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Main Content -->
+        <Border Grid.Column="1" Padding="24">
+            <StackPanel Spacing="16">
+                <TextBlock Text="Servers" FontSize="24" FontWeight="SemiBold" Foreground="White"/>
+                <TextBlock Text="No servers created yet. Create your first server to get started."
+                           Foreground="#888"/>
+                <Button Content="+ Create Server" HorizontalAlignment="Left"
+                        Background="#4361ee" Foreground="White" CornerRadius="4" Padding="16,10"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

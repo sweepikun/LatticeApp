@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Lattice.ViewModels"
+             x:Class="Lattice.Views.Plugins.PluginsView"
+             x:DataType="vm:PluginsViewModel">
+    
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Classes="lattice-sidebar" BorderThickness="0,0,0,1" Padding="16">
+            <Grid ColumnDefinitions="Auto,*">
+                <Button Content="← Back" Command="{Binding GoBackCommand}"
+                        Classes="lattice-ghost"/>
+                <TextBlock Grid.Column="1" Text="Plugins &amp; Mods" Classes="title"
+                           VerticalAlignment="Center" Margin="16,0,0,0"/>
+            </Grid>
+        </Border>
+
+        <!-- Content -->
+        <Border Grid.Row="1" Padding="24">
+            <StackPanel Spacing="16">
+                <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="2"/>
+
+                <TextBlock Text="{Binding ErrorMessage}" 
+                           Foreground="{DynamicResource StatusErrorBrush}"
+                           IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+                <!-- Plugin List -->
+                <ItemsControl ItemsSource="{Binding Plugins}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Classes="lattice-card" Margin="0,0,0,8">
+                                <Grid ColumnDefinitions="*,Auto,Auto">
+                                    <StackPanel Spacing="4">
+                                        <TextBlock Text="{Binding Name}" Classes="body" FontWeight="Medium"/>
+                                        <TextBlock Classes="caption">
+                                            <Run Text="{Binding FileName}"/>
+                                            <Run Text="•"/>
+                                            <Run Text="{Binding Version}"/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    
+                                    <ToggleSwitch Grid.Column="1" IsChecked="{Binding Enabled}"
+                                                  Command="{Binding $parent[ItemsControl].((vm:PluginsViewModel)DataContext).TogglePluginCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  Margin="16,0"/>
+                                    
+                                    <Button Grid.Column="2" Content="🗑" 
+                                            Command="{Binding $parent[ItemsControl].((vm:PluginsViewModel)DataContext).DeletePluginCommand}"
+                                            CommandParameter="{Binding}"
+                                            Classes="lattice-ghost"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <TextBlock Text="No plugins installed" Classes="caption"
+                           HorizontalAlignment="Center" Margin="0,32"
+                           IsVisible="{Binding Plugins.Count, Converter={x:Static ObjectConverters.AreEqual}, ConverterParameter=0}"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

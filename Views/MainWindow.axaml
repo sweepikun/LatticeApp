@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Lattice.ViewModels"
+        xmlns:auth="using:Lattice.Views.Auth"
+        xmlns:dashboard="using:Lattice.Views.Dashboard"
+        xmlns:console="using:Lattice.Views.Console"
+        xmlns:plugins="using:Lattice.Views.Plugins"
+        xmlns:ai="using:Lattice.Views.AI"
+        x:Class="Lattice.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="Lattice - MC Server Panel"
+        Width="1200" Height="800"
+        MinWidth="800" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource BackgroundBrush}">
+
+    <ContentControl Content="{Binding CurrentView}">
+        <ContentControl.DataTemplates>
+            <DataTemplate DataType="vm:LoginViewModel">
+                <auth:LoginView />
+            </DataTemplate>
+            <DataTemplate DataType="vm:RegisterViewModel">
+                <auth:RegisterView />
+            </DataTemplate>
+            <DataTemplate DataType="vm:DashboardViewModel">
+                <dashboard:DashboardView />
+            </DataTemplate>
+            <DataTemplate DataType="vm:ServerListViewModel">
+                <dashboard:ServerListView />
+            </DataTemplate>
+            <DataTemplate DataType="vm:CreateServerViewModel">
+                <dashboard:CreateServerView />
+            </DataTemplate>
+            <DataTemplate DataType="vm:ServerDetailViewModel">
+                <dashboard:ServerDetailView />
+            </DataTemplate>
+            <DataTemplate DataType="vm:ConsoleViewModel">
+                <console:ConsoleView />
+            </DataTemplate>
+            <DataTemplate DataType="vm:PluginsViewModel">
+                <plugins:PluginsView />
+            </DataTemplate>
+            <DataTemplate DataType="vm:AIViewModel">
+                <ai:AIView />
+            </DataTemplate>
+        </ContentControl.DataTemplates>
+    </ContentControl>
+</Window>

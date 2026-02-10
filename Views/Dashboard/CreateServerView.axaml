@@ -1,0 +1,96 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Lattice.ViewModels"
+             x:Class="Lattice.Views.Dashboard.CreateServerView"
+             x:DataType="vm:CreateServerViewModel">
+    
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <ScrollViewer Padding="32">
+            <StackPanel Spacing="24" MaxWidth="600" HorizontalAlignment="Left">
+                <!-- Header -->
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Create Server" Classes="title-large"/>
+                    <TextBlock Text="Set up a new Minecraft server" Classes="caption"/>
+                </StackPanel>
+
+                <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="2"/>
+
+                <!-- Form Card -->
+                <Border Classes="lattice-card">
+                    <StackPanel Spacing="20">
+                        <!-- Server Name -->
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Server Name" Classes="body" FontWeight="Medium"/>
+                            <TextBox Text="{Binding Name}" 
+                                     IsEnabled="{Binding !IsCreating}"
+                                     Watermark="My Minecraft Server"
+                                     CornerRadius="8" Padding="14,12"/>
+                        </StackPanel>
+
+                        <!-- Type & Version -->
+                        <Grid ColumnDefinitions="*,16,*">
+                            <StackPanel Grid.Column="0" Spacing="8">
+                                <TextBlock Text="Server Type" Classes="body" FontWeight="Medium"/>
+                                <ComboBox ItemsSource="{Binding Types}" 
+                                          SelectedItem="{Binding SelectedType}"
+                                          IsEnabled="{Binding !IsCreating}"
+                                          HorizontalAlignment="Stretch"
+                                          CornerRadius="8" Padding="14,12"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="8">
+                                <TextBlock Text="Version" Classes="body" FontWeight="Medium"/>
+                                <ComboBox ItemsSource="{Binding Versions}" 
+                                          SelectedItem="{Binding SelectedVersion}"
+                                          IsEnabled="{Binding !IsCreating}"
+                                          HorizontalAlignment="Stretch"
+                                          CornerRadius="8" Padding="14,12"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Port & Memory -->
+                        <Grid ColumnDefinitions="*,16,*">
+                            <StackPanel Grid.Column="0" Spacing="8">
+                                <TextBlock Text="Port" Classes="body" FontWeight="Medium"/>
+                                <NumericUpDown Value="{Binding Port}" 
+                                               Minimum="1024" Maximum="65535"
+                                               IsEnabled="{Binding !IsCreating}"
+                                               HorizontalAlignment="Stretch"
+                                               CornerRadius="8" Padding="14,12"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="8">
+                                <TextBlock Text="Max Memory" Classes="body" FontWeight="Medium"/>
+                                <ComboBox IsEnabled="{Binding !IsCreating}"
+                                          HorizontalAlignment="Stretch"
+                                          SelectedItem="{Binding MaxMemory}"
+                                          CornerRadius="8" Padding="14,12">
+                                    <ComboBoxItem Content="1G"/>
+                                    <ComboBoxItem Content="2G"/>
+                                    <ComboBoxItem Content="4G"/>
+                                    <ComboBoxItem Content="8G"/>
+                                    <ComboBoxItem Content="16G"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Error -->
+                        <TextBlock Text="{Binding ErrorMessage}" 
+                                   Foreground="{DynamicResource StatusErrorBrush}"
+                                   IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Actions -->
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <Button Content="Create" Command="{Binding CreateCommand}"
+                            IsEnabled="{Binding !IsCreating}"
+                            Classes="lattice-accent"
+                            Padding="24,12"/>
+                    <Button Content="Cancel" Command="{Binding CancelCommand}"
+                            IsEnabled="{Binding !IsCreating}"
+                            Classes="lattice-ghost"
+                            Padding="24,12"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
