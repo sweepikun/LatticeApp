@@ -1,0 +1,202 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Lattice.ViewModels"
+             x:Class="Lattice.Views.Plugins.PluginMarketView"
+             x:DataType="vm:PluginMarketViewModel">
+    
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Classes="lattice-sidebar" BorderThickness="0,0,0,1" Padding="16">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Button Content="← Back" Command="{Binding GoBackCommand}"
+                        Classes="lattice-ghost"/>
+                <TextBlock Grid.Column="1" Text="Plugin &amp; Mod Market" Classes="title"
+                           VerticalAlignment="Center" Margin="16,0,0,0"/>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="280"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sidebar Filters -->
+            <Border Grid.Column="0" Classes="lattice-sidebar" Padding="16">
+                <StackPanel Spacing="16">
+                    <TextBlock Text="Filters" Classes="title"/>
+
+                    <!-- Source -->
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Source" Classes="caption"/>
+                        <ComboBox SelectedItem="{Binding SelectedSource}"
+                                  HorizontalAlignment="Stretch">
+                            <ComboBoxItem Content="modrinth" Tag="modrinth"/>
+                            <ComboBoxItem Content="hangar" Tag="hangar"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Type -->
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Type" Classes="caption"/>
+                        <ComboBox SelectedItem="{Binding SelectedType}"
+                                  HorizontalAlignment="Stretch">
+                            <ComboBoxItem Content="Mod" Tag="mod"/>
+                            <ComboBoxItem Content="Plugin" Tag="plugin"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <Border Height="1" Background="{DynamicResource DividerBrush}" Margin="0,8"/>
+
+                    <!-- Naming Template -->
+                    <TextBlock Text="Download Settings" Classes="body" FontWeight="Medium"/>
+                    
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="File Naming" Classes="caption"/>
+                        <ComboBox SelectedItem="{Binding NamingTemplate}"
+                                  HorizontalAlignment="Stretch">
+                            <ComboBoxItem Content="Original (EssentialsX-2.20.1.jar)" Tag="original"/>
+                            <ComboBoxItem Content="Categorized ([P][管理]EssentialsX-2.20.1.jar)" Tag="categorized"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Category (optional)" Classes="caption"/>
+                        <TextBox Text="{Binding Category}"
+                                 Watermark="e.g., 管理, 经济"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Results -->
+            <Border Grid.Column="1" Padding="24">
+                <Grid RowDefinitions="Auto,*">
+                    <!-- Search Bar -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,16">
+                        <TextBox Text="{Binding SearchQuery}"
+                                 Watermark="Search plugins and mods..."
+                                 CornerRadius="8" Padding="14,12"
+                                 KeyDown="OnSearchKeyDown"/>
+                        <Button Grid.Column="1" Content="Search"
+                                Command="{Binding SearchCommand}"
+                                Classes="lattice-accent"
+                                IsEnabled="{Binding !IsSearching}"
+                                Padding="20,12" Margin="12,0,0,0"/>
+                    </Grid>
+
+                    <!-- Loading -->
+                    <ProgressBar Grid.Row="1" IsIndeterminate="True" 
+                                 IsVisible="{Binding IsSearching}"
+                                 Height="2" VerticalAlignment="Top"/>
+
+                    <!-- Results List -->
+                    <ScrollViewer Grid.Row="1">
+                        <StackPanel Spacing="8">
+                            <ItemsControl ItemsSource="{Binding Results}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Classes="lattice-card" Margin="0,0,0,8"
+                                                PointerPressed="OnItemClick"
+                                                Cursor="Hand">
+                                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                                <Border Width="48" Height="48" CornerRadius="8"
+                                                        Background="{DynamicResource AccentBrush}"
+                                                        Margin="0,0,12,0">
+                                                    <TextBlock Text="{Binding Title[0]}"
+                                                               Foreground="White" FontSize="20"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"/>
+                                                </Border>
+                                                <StackPanel Grid.Column="1" Spacing="4">
+                                                    <TextBlock Text="{Binding Title}" 
+                                                               Classes="body" FontWeight="Medium"/>
+                                                    <TextBlock Text="{Binding Description}" 
+                                                               Classes="caption"
+                                                               MaxLines="2" TextTrimming="CharacterEllipsis"/>
+                                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                                        <TextBlock Classes="caption">
+                                                            <Run Text="⬇"/>
+                                                            <Run Text="{Binding Downloads}"/>
+                                                        </TextBlock>
+                                                        <TextBlock Text="{Binding Author}"
+                                                                   Classes="caption"/>
+                                                        <Border CornerRadius="4" Padding="6,2"
+                                                                Background="{DynamicResource AccentLightBrush}">
+                                                            <TextBlock Text="{Binding Source}"
+                                                                       Foreground="White" FontSize="10"/>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <TextBlock Text="Search for plugins and mods to get started"
+                                       Classes="caption" HorizontalAlignment="Center"
+                                       Margin="0,32"
+                                       IsVisible="{Binding Results.Count, Converter={x:Static ObjectConverters.AreEqual}, ConverterParameter=0}"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- Version Selection Overlay -->
+            <Border Grid.Column="1" Background="#80000000"
+                    IsVisible="{Binding ShowVersions}"
+                    Padding="24">
+                <Border Classes="lattice-card" MaxWidth="500" MaxHeight="400"
+                        VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Spacing="16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="{Binding SelectedItem.Title}" Classes="title"/>
+                            <Button Content="✕" Command="{Binding CloseVersionsCommand}"
+                                    Classes="lattice-ghost" Padding="8"/>
+                        </Grid>
+
+                        <TextBlock Text="Select a version to download:" Classes="caption"/>
+
+                        <ScrollViewer MaxHeight="200">
+                            <ItemsControl ItemsSource="{Binding Versions}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Classes="lattice-card" Margin="0,0,0,4"
+                                                Background="{DynamicResource ButtonBackgroundHover}">
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <StackPanel Spacing="4">
+                                                    <TextBlock Text="{Binding Name}" Classes="body"/>
+                                                    <TextBlock Classes="caption">
+                                                        <Run Text="{Binding VersionNumber}"/>
+                                                        <Run Text="•"/>
+                                                        <Run Text="{Binding GameVersion}"/>
+                                                        <Run Text="•"/>
+                                                        <Run Text="{Binding Loader}"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                                <Button Content="Download"
+                                                        Command="{Binding $parent[ItemsControl].((vm:PluginMarketViewModel)DataContext).DownloadCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        Classes="lattice-accent"
+                                                        IsEnabled="{Binding $parent[ItemsControl].((vm:PluginMarketViewModel)DataContext).!IsDownloading}"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                        <TextBlock Text="{Binding ErrorMessage}"
+                                   Foreground="{DynamicResource StatusErrorBrush}"/>
+                    </StackPanel>
+                </Border>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -120,6 +120,12 @@ public partial class ServerDetailViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void OpenMarket()
+    {
+        _navigationService.NavigateTo<PluginMarketViewModel>(_authService, _navigationService, _serverId);
+    }
+
+    [RelayCommand]
     private void GoBack()
     {
         _navigationService.NavigateTo<ServerListViewModel>(_authService, _navigationService);

@@ -63,6 +63,8 @@
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <Button Content="Open Console" Command="{Binding OpenConsoleCommand}"
                                         Classes="lattice-accent"/>
+                                <Button Content="Plugin Market" Command="{Binding OpenMarketCommand}"
+                                        Classes="lattice-accent"/>
                                 <Button Content="Start" Command="{Binding StartCommand}"
                                         Classes="lattice-success"/>
                                 <Button Content="Stop" Command="{Binding StopCommand}"

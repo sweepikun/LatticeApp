@@ -247,6 +247,48 @@ public class ApiService
         if (!response.IsSuccessStatusCode) return null;
         return await response.Content.ReadFromJsonAsync<BackupInfo>();
     }
+
+    // Market
+    public async Task<List<MarketItem>?> SearchMarketAsync(string serverId, string source, string query, string type)
+    {
+        AddAuthHeader();
+        var encodedQuery = Uri.EscapeDataString(query);
+        return await _httpClient.GetFromJsonAsync<List<MarketItem>>(
+            $"{BaseUrl}/servers/{serverId}/market/{source}/search?q={encodedQuery}&type={type}");
+    }
+
+    public async Task<List<MarketVersion>?> GetMarketVersionsAsync(string serverId, string source, string projectId)
+    {
+        AddAuthHeader();
+        return await _httpClient.GetFromJsonAsync<List<MarketVersion>>(
+            $"{BaseUrl}/servers/{serverId}/market/{source}/versions/{projectId}");
+    }
+
+    public async Task<DownloadResult?> DownloadFromMarketAsync(
+        string serverId, 
+        string source,
+        string projectId,
+        string versionId,
+        string type,
+        string namingTemplate,
+        string? category)
+    {
+        AddAuthHeader();
+        var content = new StringContent(
+            JsonSerializer.Serialize(new { 
+                source,
+                projectId,
+                versionId,
+                type,
+                namingTemplate,
+                category
+            }),
+            Encoding.UTF8,
+            "application/json");
+        var response = await _httpClient.PostAsync($"{BaseUrl}/servers/{serverId}/market/download", content);
+        if (!response.IsSuccessStatusCode) return null;
+        return await response.Content.ReadFromJsonAsync<DownloadResult>();
+    }
 }
 
 public class PluginInfo
@@ -278,6 +320,34 @@ public class ConfigureResult
 public class ChatResult
 {
     public string Response { get; set; } = string.Empty;
+}
+
+public class MarketItem
+{
+    public string Id { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string Icon { get; set; } = string.Empty;
+    public string Author { get; set; } = string.Empty;
+    public long Downloads { get; set; }
+    public string Source { get; set; } = "modrinth";
+}
+
+public class MarketVersion
+{
+    public string Id { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string VersionNumber { get; set; } = string.Empty;
+    public string GameVersion { get; set; } = string.Empty;
+    public string Loader { get; set; } = string.Empty;
+}
+
+public class DownloadResult
+{
+    public bool Success { get; set; }
+    public string FileName { get; set; } = string.Empty;
+    public string Path { get; set; } = string.Empty;
+    public string? OriginalName { get; set; }
 }
 
 public class CreateServerRequest

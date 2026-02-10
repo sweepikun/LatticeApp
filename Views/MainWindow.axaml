@@ -40,6 +40,9 @@
             <DataTemplate DataType="vm:PluginsViewModel">
                 <plugins:PluginsView />
             </DataTemplate>
+            <DataTemplate DataType="vm:PluginMarketViewModel">
+                <plugins:PluginMarketView />
+            </DataTemplate>
             <DataTemplate DataType="vm:AIViewModel">
                 <ai:AIView />
             </DataTemplate>
