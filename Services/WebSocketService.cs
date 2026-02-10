@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Websocket.Client;
 
 namespace Lattice.Services;

@@ -1,3 +1,4 @@
+using System;
 using Lattice.Models;
 
 namespace Lattice.Services;

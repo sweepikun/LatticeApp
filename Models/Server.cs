@@ -1,3 +1,5 @@
+using System;
+
 namespace Lattice.Models;
 
 public class Server
