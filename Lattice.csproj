@@ -12,7 +12,12 @@
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-    <AvaloniaXaml Include="**\*.axaml" Exclude="bin\**;obj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaXaml Include="App.axaml" />
+    <AvaloniaXaml Include="Styles\**\*.axaml" />
+    <AvaloniaXaml Include="Views\**\*.axaml" />
   </ItemGroup>
 
   <ItemGroup>
