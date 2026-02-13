@@ -21,7 +21,7 @@
                         <!-- Server Name -->
                         <StackPanel Spacing="8">
                             <TextBlock Text="Server Name" Classes="body" FontWeight="Medium"/>
-                            <TextBox Text="{Binding Name}" 
+                            <TextBox Text="{Binding Name, Mode=TwoWay}" 
                                      IsEnabled="{Binding !IsCreating}"
                                      Watermark="My Minecraft Server"
                                      CornerRadius="8" Padding="14,12"/>

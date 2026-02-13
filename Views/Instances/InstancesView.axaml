@@ -1,0 +1,159 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Lattice.ViewModels"
+             x:Class="Lattice.Views.Instances.InstancesView"
+             x:DataType="vm:InstancesViewModel">
+    
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <Border Grid.Row="0" Padding="24,12" Background="{DynamicResource BackgroundBrush}">
+            <Grid RowDefinitions="Auto,Auto">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <TextBlock Text="实例管理" Classes="title" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="管理所有Minecraft服务器实例" 
+                               Foreground="{DynamicResource TextTertiaryBrush}" 
+                               VerticalAlignment="Center" Margin="16,0,0,0"/>
+                    <Button Grid.Column="2" Command="{Binding CreateInstanceCommand}" Classes="accent"
+                            IsVisible="{Binding IsAdmin}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <PathIcon Data="{StaticResource AddIcon}" Width="16" Height="16" Foreground="White"/>
+                            <TextBlock Text="创建实例"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                
+                <!-- Filters -->
+                <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" Margin="0,12,0,0">
+                    <ComboBox ItemsSource="{Binding Nodes}" 
+                              SelectedItem="{Binding SelectedNode}"
+                              Width="160" Height="36"
+                              Classes="input">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    
+                    <TextBox Grid.Column="1" Text="{Binding SearchQuery}" 
+                             Watermark="搜索实例..." 
+                             Classes="input" Height="36" Margin="12,0,0,0">
+                        <TextBox.InnerRightContent>
+                            <PathIcon Data="{StaticResource SearchIcon}" Width="16" Height="16"
+                                      Foreground="{DynamicResource TextTertiaryBrush}" Margin="0,0,8,0"/>
+                        </TextBox.InnerRightContent>
+                    </TextBox>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24" Spacing="12">
+                <!-- Loading -->
+                <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="2"/>
+                
+                <!-- Error -->
+                <Border Background="{DynamicResource StatusErrorBrush}" CornerRadius="8" Padding="16,12"
+                        IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                    <TextBlock Text="{Binding ErrorMessage}" Foreground="White"/>
+                </Border>
+
+                <!-- Empty State -->
+                <StackPanel Spacing="16" HorizontalAlignment="Center" Margin="0,48,0,0"
+                            IsVisible="{Binding ShowEmptyState}">
+                    <PathIcon Data="{StaticResource ServerIcon}" Width="64" Height="64"
+                              Foreground="{DynamicResource TextTertiaryBrush}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="暂无实例" Classes="subtitle" HorizontalAlignment="Center"
+                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                    <TextBlock Text="点击右上角「创建实例」按钮添加您的第一个服务器"
+                               Foreground="{DynamicResource TextTertiaryBrush}"
+                               HorizontalAlignment="Center" FontSize="13"/>
+                    <Button Content="创建实例" Command="{Binding CreateInstanceCommand}"
+                            Classes="accent" Margin="0,8,0,0" HorizontalAlignment="Center"
+                            IsVisible="{Binding IsAdmin}"/>
+                </StackPanel>
+
+                <!-- Instance Cards -->
+                <ItemsControl ItemsSource="{Binding FilteredInstances}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="8"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{DynamicResource CardBrush}" CornerRadius="8" 
+                                    Padding="16" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <!-- Status Icon -->
+                                    <Border Width="40" Height="40" CornerRadius="8"
+                                            Background="{DynamicResource AccentSubtleBrush}"
+                                            VerticalAlignment="Center">
+                                        <PathIcon Data="{StaticResource ServerIcon}" Width="20" Height="20"
+                                                  Foreground="{DynamicResource AccentBrush}"/>
+                                    </Border>
+                                    
+                                    <!-- Info -->
+                                    <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center" Spacing="4">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"
+                                                       Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                            <Border CornerRadius="4" Padding="6,2"
+                                                    Background="{DynamicResource StatusRunningBrush}"
+                                                    IsVisible="{Binding IsRunning}">
+                                                <TextBlock Text="运行中" FontSize="10" Foreground="White"/>
+                                            </Border>
+                                            <Border CornerRadius="4" Padding="6,2"
+                                                    Background="{DynamicResource StatusStoppedBrush}"
+                                                    IsVisible="{Binding IsStopped}">
+                                                <TextBlock Text="已停止" FontSize="10" Foreground="White"/>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                            <TextBlock FontSize="12" Foreground="{DynamicResource TextTertiaryBrush}">
+                                                <Run Text="{Binding Type}"/> · <Run Text="{Binding Version}"/>
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding Port, StringFormat=端口: {0}}" 
+                       FontSize="12" Foreground="{DynamicResource TextTertiaryBrush}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    
+                                    <!-- Actions -->
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                        <Button Command="{Binding $parent[ItemsControl].((vm:InstancesViewModel)DataContext).StartInstanceCommand}"
+                                                CommandParameter="{Binding}" Classes="success"
+                                                IsVisible="{Binding IsStopped}" Height="32" Padding="12,0"
+                                                ToolTip.Tip="启动">
+                                            <PathIcon Data="{StaticResource PlayIcon}" Width="14" Height="14"/>
+                                        </Button>
+                                        <Button Command="{Binding $parent[ItemsControl].((vm:InstancesViewModel)DataContext).StopInstanceCommand}"
+                                                CommandParameter="{Binding}" Classes="danger"
+                                                IsVisible="{Binding IsRunning}" Height="32" Padding="12,0"
+                                                ToolTip.Tip="停止">
+                                            <PathIcon Data="{StaticResource StopIcon}" Width="14" Height="14"/>
+                                        </Button>
+                                        <Button Command="{Binding $parent[ItemsControl].((vm:InstancesViewModel)DataContext).RestartInstanceCommand}"
+                                                CommandParameter="{Binding}" Classes="outline"
+                                                IsVisible="{Binding IsRunning}" Height="32" Padding="12,0"
+                                                ToolTip.Tip="重启">
+                                            <PathIcon Data="{StaticResource RestartIcon}" Width="14" Height="14"/>
+                                        </Button>
+                                        <Button Command="{Binding $parent[ItemsControl].((vm:InstancesViewModel)DataContext).OpenInstanceCommand}"
+                                                CommandParameter="{Binding}" Classes="subtle" Height="32" Padding="12,0">
+                                            <TextBlock Text="管理" FontSize="13"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

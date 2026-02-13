@@ -46,7 +46,7 @@ public partial class CreateServerViewModel : ObservableObject
     {
         _authService = authService;
         _navigationService = navigationService;
-        _apiService = new ApiService(_authService);
+        _apiService = new ApiService(_authService.ServerAddress);
     }
 
     public async Task InitializeAsync()
@@ -103,7 +103,6 @@ public partial class CreateServerViewModel : ObservableObject
         }
         catch
         {
-            // Ignore version load errors
         }
     }
 
@@ -136,7 +135,7 @@ public partial class CreateServerViewModel : ObservableObject
                 MaxMemory = MaxMemory
             };
 
-            var server = await _apiService.CreateServerAsync(request);
+            var server = await _apiService.CreateServerAsync(request, _authService.AccessToken);
             if (server != null)
             {
                 _navigationService.NavigateTo<ServerListViewModel>(_authService, _navigationService);

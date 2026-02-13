@@ -25,7 +25,7 @@ public class WebSocketService : IDisposable
 
     public bool IsConnected => _client?.IsRunning ?? false;
 
-    public WebSocketService(string serverUrl = "ws://localhost:3000/ws")
+    public WebSocketService(string serverUrl)
     {
         _serverUrl = serverUrl;
     }
@@ -79,7 +79,6 @@ public class WebSocketService : IDisposable
             }
             catch
             {
-                // Ignore parse errors
             }
         });
 

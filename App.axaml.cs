@@ -4,7 +4,6 @@ using Avalonia.Markup.Xaml;
 using Lattice.Services;
 using Lattice.ViewModels;
 using Lattice.Views;
-using Lattice.Views.Auth;
 
 namespace Lattice;
 
@@ -23,20 +22,12 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var mainViewModel = new MainViewModel(authService, navigationService);
-            
-            if (authService.IsAuthenticated)
-            {
-                navigationService.NavigateTo<ServerListViewModel>(authService, navigationService);
-            }
-            else
-            {
-                navigationService.NavigateTo<LoginViewModel>();
-            }
-
-            desktop.MainWindow = new MainWindow
+            var mainWindow = new MainWindow
             {
                 DataContext = mainViewModel
             };
+            mainViewModel.SetWindow(mainWindow);
+            desktop.MainWindow = mainWindow;
         }
 
         base.OnFrameworkInitializationCompleted();

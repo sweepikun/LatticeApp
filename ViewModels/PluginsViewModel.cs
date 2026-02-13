@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -37,6 +38,8 @@ public partial class PluginsViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<PluginItem> _plugins = new();
 
+    public bool HasPlugins => Plugins.Count > 0;
+
     [ObservableProperty]
     private bool _isLoading;
 
@@ -50,8 +53,10 @@ public partial class PluginsViewModel : ObservableObject
     {
         _authService = authService;
         _navigationService = navigationService;
-        _apiService = new ApiService(_authService);
+        _apiService = new ApiService(_authService.ServerAddress);
         _serverId = serverId;
+        
+        Plugins.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HasPlugins));
     }
 
     public async Task LoadPluginsAsync()
@@ -61,7 +66,7 @@ public partial class PluginsViewModel : ObservableObject
 
         try
         {
-            var plugins = await _apiService.GetPluginsAsync(_serverId, FilterType);
+            var plugins = await _apiService.GetPluginsAsync(_serverId, _authService.AccessToken, FilterType);
             Plugins.Clear();
             if (plugins != null)
             {
@@ -96,11 +101,11 @@ public partial class PluginsViewModel : ObservableObject
         {
             if (plugin.Enabled)
             {
-                await _apiService.DisablePluginAsync(_serverId, plugin.FileName);
+                await _apiService.DisablePluginAsync(_serverId, plugin.FileName, _authService.AccessToken);
             }
             else
             {
-                await _apiService.EnablePluginAsync(_serverId, plugin.FileName);
+                await _apiService.EnablePluginAsync(_serverId, plugin.FileName, _authService.AccessToken);
             }
             plugin.Enabled = !plugin.Enabled;
         }
@@ -115,7 +120,7 @@ public partial class PluginsViewModel : ObservableObject
     {
         try
         {
-            await _apiService.DeletePluginAsync(_serverId, plugin.FileName);
+            await _apiService.DeletePluginAsync(_serverId, plugin.FileName, _authService.AccessToken);
             Plugins.Remove(plugin);
         }
         catch
@@ -127,6 +132,6 @@ public partial class PluginsViewModel : ObservableObject
     [RelayCommand]
     private void GoBack()
     {
-        _navigationService.NavigateTo<ServerListViewModel>(_authService, _navigationService);
+        _navigationService.NavigateTo<ServerDetailViewModel>(_authService, _navigationService, _serverId);
     }
 }

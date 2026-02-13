@@ -68,7 +68,7 @@
 
                     <StackPanel Spacing="8">
                         <TextBlock Text="Category (optional)" Classes="caption"/>
-                        <TextBox Text="{Binding Category}"
+                        <TextBox Text="{Binding Category, Mode=TwoWay}"
                                  Watermark="e.g., 管理, 经济"/>
                     </StackPanel>
                 </StackPanel>
@@ -79,7 +79,7 @@
                 <Grid RowDefinitions="Auto,*">
                     <!-- Search Bar -->
                     <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,16">
-                        <TextBox Text="{Binding SearchQuery}"
+                        <TextBox Text="{Binding SearchQuery, Mode=TwoWay}"
                                  Watermark="Search plugins and mods..."
                                  CornerRadius="8" Padding="14,12"
                                  KeyDown="OnSearchKeyDown"/>
@@ -142,7 +142,7 @@
                             <TextBlock Text="Search for plugins and mods to get started"
                                        Classes="caption" HorizontalAlignment="Center"
                                        Margin="0,32"
-                                       IsVisible="{Binding Results.Count, Converter={x:Static ObjectConverters.AreEqual}, ConverterParameter=0}"/>
+                                       IsVisible="{Binding !HasResults}"/>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>

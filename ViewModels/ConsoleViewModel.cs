@@ -37,8 +37,10 @@ public partial class ConsoleViewModel : ObservableObject
     {
         _authService = authService;
         _navigationService = navigationService;
-        _apiService = new ApiService(_authService);
-        _wsService = new WebSocketService();
+        _apiService = new ApiService(_authService.ServerAddress);
+        
+        var wsUrl = _authService.ServerAddress.Replace("http://", "ws://").Replace("https://", "wss://") + "/ws";
+        _wsService = new WebSocketService(wsUrl);
         _serverId = serverId;
 
         _wsService.LogReceived += OnLogReceived;
@@ -50,7 +52,7 @@ public partial class ConsoleViewModel : ObservableObject
         IsLoading = true;
         try
         {
-            Server = await _apiService.GetServerAsync(_serverId);
+            Server = await _apiService.GetServerAsync(_serverId, _authService.AccessToken);
             await _wsService.ConnectAsync();
             _wsService.Subscribe(_serverId);
         }
@@ -89,7 +91,7 @@ public partial class ConsoleViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task SendCommand()
+    private void SendCommand()
     {
         if (string.IsNullOrWhiteSpace(CommandInput)) return;
 
@@ -107,14 +109,14 @@ public partial class ConsoleViewModel : ObservableObject
     private async Task Start()
     {
         if (Server == null) return;
-        await _apiService.StartServerAsync(_serverId);
+        await _apiService.StartServerAsync(_serverId, _authService.AccessToken);
     }
 
     [RelayCommand]
     private async Task Stop()
     {
         if (Server == null) return;
-        await _apiService.StopServerAsync(_serverId);
+        await _apiService.StopServerAsync(_serverId, _authService.AccessToken);
     }
 
     [RelayCommand]
@@ -122,6 +124,6 @@ public partial class ConsoleViewModel : ObservableObject
     {
         _wsService.Unsubscribe();
         _wsService.Dispose();
-        _navigationService.NavigateTo<ServerListViewModel>(_authService, _navigationService);
+        _navigationService.NavigateTo<ServerDetailViewModel>(_authService, _navigationService, _serverId);
     }
 }

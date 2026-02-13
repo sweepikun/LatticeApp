@@ -61,7 +61,7 @@
 
                 <TextBlock Text="No plugins installed" Classes="caption"
                            HorizontalAlignment="Center" Margin="0,32"
-                           IsVisible="{Binding Plugins.Count, Converter={x:Static ObjectConverters.AreEqual}, ConverterParameter=0}"/>
+                           IsVisible="{Binding !HasPlugins}"/>
             </StackPanel>
         </Border>
     </Grid>

@@ -1,0 +1,147 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Lattice.ViewModels"
+             x:Class="Lattice.Views.Settings.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+    
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <Border Grid.Row="0" Padding="24,16" Background="{DynamicResource BackgroundBrush}">
+            <TextBlock Text="设置" Classes="title" VerticalAlignment="Center"/>
+        </Border>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24" Spacing="16">
+                <!-- Appearance -->
+                <Border Background="{DynamicResource CardBrush}" CornerRadius="8" Padding="20"
+                        BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="外观" Classes="subtitle"/>
+                        
+                        <Grid ColumnDefinitions="120,*">
+                            <TextBlock Text="主题" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding ThemeOptions}"
+                                      SelectedIndex="{Binding SelectedTheme}"
+                                      HorizontalAlignment="Left" MinWidth="150"/>
+                        </Grid>
+                        
+                        <Grid ColumnDefinitions="120,*">
+                            <TextBlock Text="语言" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding LanguageOptions}"
+                                      SelectedIndex="{Binding SelectedLanguage}"
+                                      HorizontalAlignment="Left" MinWidth="150"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Behavior -->
+                <Border Background="{DynamicResource CardBrush}" CornerRadius="8" Padding="20"
+                        BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="启动行为" Classes="subtitle"/>
+                        
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="启动时自动连接" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text="自动连接上次使用的节点" FontSize="11"
+                                           Foreground="{DynamicResource TextTertiaryBrush}"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1" IsChecked="{Binding AutoConnectOnStartup}"/>
+                        </Grid>
+                        
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="启动时最小化" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text="启动后最小化到系统托盘" FontSize="11"
+                                           Foreground="{DynamicResource TextTertiaryBrush}"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1" IsChecked="{Binding StartMinimized}"/>
+                        </Grid>
+                        
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="开机自启动" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text="系统启动时自动运行" FontSize="11"
+                                           Foreground="{DynamicResource TextTertiaryBrush}"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1" IsChecked="{Binding AutoStartWithSystem}"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Saved Nodes -->
+                <Border Background="{DynamicResource CardBrush}" CornerRadius="8" Padding="20"
+                        BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="已保存的节点" Classes="subtitle"/>
+                        
+                        <TextBlock Text="暂无已保存的节点" FontSize="13"
+                                   Foreground="{DynamicResource TextTertiaryBrush}"
+                                   IsVisible="{Binding !HasSavedNodes}"/>
+                        
+                        <ItemsControl ItemsSource="{Binding SavedNodes}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="8" 
+                                            Padding="16" Margin="0,0,0,8">
+                                        <Grid ColumnDefinitions="Auto,*,Auto">
+                                            <Border Width="8" Height="8" CornerRadius="4" Margin="0,0,12,0"
+                                                    Background="{DynamicResource StatusRunningBrush}"
+                                                    VerticalAlignment="Center"/>
+                                            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Name}" FontWeight="Medium"
+                                                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                <TextBlock Text="{Binding Address}" FontSize="11"
+                                                           Foreground="{DynamicResource TextTertiaryBrush}"/>
+                                            </StackPanel>
+                                            <Button Grid.Column="2" 
+                                                    Command="{Binding $parent[ItemsControl].((vm:SettingsViewModel)DataContext).DeleteNodeCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Classes="subtle" Height="28" Padding="8,0"
+                                                    ToolTip.Tip="删除">
+                                                <PathIcon Data="{StaticResource DeleteIcon}" Width="14" Height="14"/>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- About -->
+                <Border Background="{DynamicResource CardBrush}" CornerRadius="8" Padding="20"
+                        BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="关于" Classes="subtitle"/>
+                        
+                        <Grid ColumnDefinitions="120,*">
+                            <TextBlock Text="版本" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            <TextBlock Grid.Column="1" Text="{Binding AppVersion}"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        </Grid>
+                        
+                        <Grid ColumnDefinitions="120,*">
+                            <TextBlock Text="作者" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            <TextBlock Grid.Column="1" Text="Lattice Team"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        </Grid>
+                        
+                        <TextBlock Text="Lattice 是一个现代化的 Minecraft 服务器管理面板"
+                                   FontSize="12" Foreground="{DynamicResource TextTertiaryBrush}"
+                                   TextWrapping="Wrap" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

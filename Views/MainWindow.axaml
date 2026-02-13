@@ -1,51 +1,114 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:Lattice.ViewModels"
-        xmlns:auth="using:Lattice.Views.Auth"
+        xmlns:main="using:Lattice.Views.Main"
+        xmlns:connect="using:Lattice.Views.Connect"
+        xmlns:admin="using:Lattice.Views.Admin"
         xmlns:dashboard="using:Lattice.Views.Dashboard"
         xmlns:console="using:Lattice.Views.Console"
         xmlns:plugins="using:Lattice.Views.Plugins"
-        xmlns:ai="using:Lattice.Views.AI"
+        xmlns:instances="using:Lattice.Views.Instances"
+        xmlns:downloads="using:Lattice.Views.Downloads"
+        xmlns:nodes="using:Lattice.Views.Nodes"
+        xmlns:frp="using:Lattice.Views.FRP"
+        xmlns:settings="using:Lattice.Views.Settings"
+        xmlns:i="using:Avalonia.Xaml.Interactivity"
+        xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
         x:Class="Lattice.Views.MainWindow"
         x:DataType="vm:MainViewModel"
-        Title="Lattice - MC Server Panel"
+        Title="Lattice"
         Width="1200" Height="800"
-        MinWidth="800" MinHeight="600"
+        MinWidth="900" MinHeight="600"
         WindowStartupLocation="CenterScreen"
-        Background="{DynamicResource BackgroundBrush}">
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        SystemDecorations="BorderOnly"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent">
 
-    <ContentControl Content="{Binding CurrentView}">
-        <ContentControl.DataTemplates>
-            <DataTemplate DataType="vm:LoginViewModel">
-                <auth:LoginView />
-            </DataTemplate>
-            <DataTemplate DataType="vm:RegisterViewModel">
-                <auth:RegisterView />
-            </DataTemplate>
-            <DataTemplate DataType="vm:DashboardViewModel">
-                <dashboard:DashboardView />
-            </DataTemplate>
-            <DataTemplate DataType="vm:ServerListViewModel">
-                <dashboard:ServerListView />
-            </DataTemplate>
-            <DataTemplate DataType="vm:CreateServerViewModel">
-                <dashboard:CreateServerView />
-            </DataTemplate>
-            <DataTemplate DataType="vm:ServerDetailViewModel">
-                <dashboard:ServerDetailView />
-            </DataTemplate>
-            <DataTemplate DataType="vm:ConsoleViewModel">
-                <console:ConsoleView />
-            </DataTemplate>
-            <DataTemplate DataType="vm:PluginsViewModel">
-                <plugins:PluginsView />
-            </DataTemplate>
-            <DataTemplate DataType="vm:PluginMarketViewModel">
-                <plugins:PluginMarketView />
-            </DataTemplate>
-            <DataTemplate DataType="vm:AIViewModel">
-                <ai:AIView />
-            </DataTemplate>
-        </ContentControl.DataTemplates>
-    </ContentControl>
+    <Border CornerRadius="8" Background="{DynamicResource BackgroundBrush}" ClipToBounds="True">
+        <Grid RowDefinitions="32,*">
+            <!-- Title Bar -->
+            <Border Grid.Row="0" Background="{DynamicResource TitleBarBrush}" x:Name="TitleBar">
+                <Grid ColumnDefinitions="*,Auto">
+                    <!-- Draggable area -->
+                    <Border Grid.Column="0" Background="Transparent"/>
+                    
+                    <!-- Window Controls -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="0">
+                        <Button x:Name="MinimizeButton" Width="46" Height="32"
+                                Background="Transparent" BorderThickness="0"
+                                Command="{Binding MinimizeCommand}">
+                            <PathIcon Data="{StaticResource MinimizeIcon}" Width="12" Height="12"
+                                      Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        </Button>
+                        <Button x:Name="MaximizeButton" Width="46" Height="32"
+                                Background="Transparent" BorderThickness="0"
+                                Command="{Binding MaximizeCommand}">
+                            <PathIcon Data="{StaticResource MaximizeIcon}" Width="12" Height="12"
+                                      Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        </Button>
+                        <Button x:Name="CloseButton" Width="46" Height="32"
+                                Background="Transparent" BorderThickness="0"
+                                Command="{Binding CloseCommand}">
+                            <PathIcon Data="{StaticResource CloseIcon}" Width="12" Height="12"
+                                      Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Main Content -->
+            <ContentControl Grid.Row="1" Content="{Binding}">
+                <ContentControl.DataTemplates>
+                    <DataTemplate DataType="vm:MainViewModel">
+                        <main:MainView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:ConnectViewModel">
+                        <connect:ConnectView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:DashboardViewModel">
+                        <dashboard:DashboardView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:InstancesViewModel">
+                        <instances:InstancesView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:DownloadsViewModel">
+                        <downloads:DownloadsView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:NodesViewModel">
+                        <nodes:NodesView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:UsersViewModel">
+                        <admin:UsersView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:FRPViewModel">
+                        <frp:FRPView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:SettingsViewModel">
+                        <settings:SettingsView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:ServerListViewModel">
+                        <dashboard:ServerListView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:CreateServerViewModel">
+                        <dashboard:CreateServerView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:ServerDetailViewModel">
+                        <dashboard:ServerDetailView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:ConsoleViewModel">
+                        <console:ConsoleView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:PluginsViewModel">
+                        <plugins:PluginsView />
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:PluginMarketViewModel">
+                        <plugins:PluginMarketView />
+                    </DataTemplate>
+                </ContentControl.DataTemplates>
+            </ContentControl>
+        </Grid>
+    </Border>
 </Window>

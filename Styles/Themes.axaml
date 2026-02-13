@@ -1,161 +1,149 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Light Theme - 粉蓝清新 -->
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
-            <!-- 基础色 -->
-            <Color x:Key="SystemAccentColor">#FF6B9D</Color>
-            <Color x:Key="SystemAccentColorLight">#7DD3FC</Color>
-            <Color x:Key="SystemAccentColorDark">#EC4899</Color>
+            <Color x:Key="SystemAccentColor">#0078D4</Color>
+            <Color x:Key="SystemAccentColorLight">#60CDFF</Color>
+            <Color x:Key="SystemAccentColorDark">#005A9E</Color>
             
-            <!-- 背景色 -->
-            <Color x:Key="LayerFillColorDefault">#FAFAFA</Color>
-            <Color x:Key="LayerFillColorAlt">#F3F3F3</Color>
-            <Color x:Key="LayerFillColorSecondary">#EFEFEF</Color>
-            <Color x:Key="LayerFillColorTertiary">#F9F9F9</Color>
-            
-            <!-- 表面色 -->
+            <Color x:Key="LayerFillColorDefault">#F3F3F3</Color>
             <Color x:Key="CardBackground">#FFFFFF</Color>
             <Color x:Key="CardBackgroundHover">#F5F5F5</Color>
-            <Color x:Key="SidebarBackground">#F8F8F8</Color>
+            <Color x:Key="SidebarBackground">#F5F5F5</Color>
+            <Color x:Key="TitleBarBackground">#F5F5F5</Color>
             
-            <!-- 文字色 -->
             <Color x:Key="TextFillColorPrimary">#1A1A1A</Color>
             <Color x:Key="TextFillColorSecondary">#5C5C5C</Color>
             <Color x:Key="TextFillColorTertiary">#8A8A8A</Color>
             <Color x:Key="TextFillColorDisabled">#C4C4C4</Color>
             
-            <!-- 边框色 -->
-            <Color x:Key="CardStrokeColorDefault">#E5E5E5</Color>
-            <Color x:Key="CardStrokeColorSecondary">#EBEBEB</Color>
-            <Color x:Key="SurfaceStrokeColorDefault">#D1D1D1</Color>
+            <Color x:Key="ControlStrokeColorDefault">#E5E5E5</Color>
+            <Color x:Key="ControlStrokeColorSecondary">#EBEBEB</Color>
             
-            <!-- 状态色 -->
-            <Color x:Key="SystemSuccessColor">#10B981</Color>
-            <Color x:Key="SystemWarningColor">#F59E0B</Color>
-            <Color x:Key="SystemErrorColor">#EF4444</Color>
-            <Color x:Key="SystemInfoColor">#3B82F6</Color>
+            <Color x:Key="SystemSuccessColor">#0F7B0F</Color>
+            <Color x:Key="SystemWarningColor">#9D5D00</Color>
+            <Color x:Key="SystemErrorColor">#C42B1C</Color>
+            <Color x:Key="SystemCautionColor">#424242</Color>
             
-            <!-- 语义色 -->
             <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource LayerFillColorDefault}"/>
             <SolidColorBrush x:Key="CardBrush" Color="{StaticResource CardBackground}"/>
+            <SolidColorBrush x:Key="SurfaceBrush" Color="#F0F0F0"/>
             <SolidColorBrush x:Key="SidebarBrush" Color="{StaticResource SidebarBackground}"/>
+            <SolidColorBrush x:Key="TitleBarBrush" Color="{StaticResource TitleBarBackground}"/>
             <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource SystemAccentColor}"/>
-            <SolidColorBrush x:Key="AccentLightBrush" Color="{StaticResource SystemAccentColorLight}"/>
+            <SolidColorBrush x:Key="AccentSubtleBrush" Color="#F0F6FB"/>
             <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextFillColorPrimary}"/>
             <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextFillColorSecondary}"/>
             <SolidColorBrush x:Key="TextTertiaryBrush" Color="{StaticResource TextFillColorTertiary}"/>
-            <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource CardStrokeColorDefault}"/>
-            <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource CardStrokeColorSecondary}"/>
+            <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource ControlStrokeColorDefault}"/>
+            <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource ControlStrokeColorSecondary}"/>
             
-            <!-- 特殊效果 -->
-            <SolidColorBrush x:Key="AcrylicBackgroundBrush" Color="#80FFFFFF"/>
-            <SolidColorBrush x:Key="MicaBackgroundBrush" Color="#F3F3F3"/>
-            
-            <!-- 按钮色 -->
-            <SolidColorBrush x:Key="ButtonBackground" Color="Transparent"/>
-            <SolidColorBrush x:Key="ButtonBackgroundHover" Color="#F5F5F5"/>
-            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#EBEBEB"/>
-            <SolidColorBrush x:Key="AccentButtonBackground" Color="{StaticResource SystemAccentColor}"/>
-            <SolidColorBrush x:Key="AccentButtonBackgroundHover" Color="{StaticResource SystemAccentColorDark}"/>
-            
-            <!-- 状态色画刷 -->
             <SolidColorBrush x:Key="StatusRunningBrush" Color="{StaticResource SystemSuccessColor}"/>
-            <SolidColorBrush x:Key="StatusStartingBrush" Color="{StaticResource SystemWarningColor}"/>
-            <SolidColorBrush x:Key="StatusStoppedBrush" Color="{StaticResource TextFillColorTertiary}"/>
+            <SolidColorBrush x:Key="StatusWarningBrush" Color="{StaticResource SystemWarningColor}"/>
             <SolidColorBrush x:Key="StatusErrorBrush" Color="{StaticResource SystemErrorColor}"/>
+            <SolidColorBrush x:Key="StatusStoppedBrush" Color="{StaticResource SystemCautionColor}"/>
+            
+            <SolidColorBrush x:Key="NavigationViewItemBackground" Color="Transparent"/>
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundHover" Color="#E5E5E5"/>
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelected" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="NavigationViewItemBorderSelected" Color="{StaticResource SystemAccentColor}"/>
+            
+            <SolidColorBrush x:Key="WindowCloseButtonHover" Color="#E81123"/>
+            <SolidColorBrush x:Key="WindowTitleBarButtonHover" Color="#E5E5E5"/>
         </ResourceDictionary>
         
-        <!-- Dark Theme - 粉蓝霓虹 -->
         <ResourceDictionary x:Key="Dark">
-            <!-- 基础色 -->
-            <Color x:Key="SystemAccentColor">#FF6B9D</Color>
-            <Color x:Key="SystemAccentColorLight">#7DD3FC</Color>
-            <Color x:Key="SystemAccentColorDark">#F472B6</Color>
+            <Color x:Key="SystemAccentColor">#60CDFF</Color>
+            <Color x:Key="SystemAccentColorLight">#8CE0FF</Color>
+            <Color x:Key="SystemAccentColorDark">#0078D4</Color>
             
-            <!-- 背景色 -->
             <Color x:Key="LayerFillColorDefault">#202020</Color>
-            <Color x:Key="LayerFillColorAlt">#1C1C1C</Color>
-            <Color x:Key="LayerFillColorSecondary">#282828</Color>
-            <Color x:Key="LayerFillColorTertiary">#232323</Color>
-            
-            <!-- 表面色 -->
             <Color x:Key="CardBackground">#2D2D2D</Color>
             <Color x:Key="CardBackgroundHover">#363636</Color>
             <Color x:Key="SidebarBackground">#1A1A1A</Color>
+            <Color x:Key="TitleBarBackground">#1A1A1A</Color>
             
-            <!-- 文字色 -->
             <Color x:Key="TextFillColorPrimary">#FFFFFF</Color>
             <Color x:Key="TextFillColorSecondary">#C5C5C5</Color>
             <Color x:Key="TextFillColorTertiary">#8A8A8A</Color>
             <Color x:Key="TextFillColorDisabled">#4C4C4C</Color>
             
-            <!-- 边框色 -->
-            <Color x:Key="CardStrokeColorDefault">#3D3D3D</Color>
-            <Color x:Key="CardStrokeColorSecondary">#333333</Color>
-            <Color x:Key="SurfaceStrokeColorDefault">#474747</Color>
+            <Color x:Key="ControlStrokeColorDefault">#3D3D3D</Color>
+            <Color x:Key="ControlStrokeColorSecondary">#333333</Color>
             
-            <!-- 状态色 -->
-            <Color x:Key="SystemSuccessColor">#34D399</Color>
-            <Color x:Key="SystemWarningColor">#FBBF24</Color>
-            <Color x:Key="SystemErrorColor">#F87171</Color>
-            <Color x:Key="SystemInfoColor">#60A5FA</Color>
+            <Color x:Key="SystemSuccessColor">#6CCB5F</Color>
+            <Color x:Key="SystemWarningColor">#FCE300</Color>
+            <Color x:Key="SystemErrorColor">#FF99A4</Color>
+            <Color x:Key="SystemCautionColor">#9D9D9D</Color>
             
-            <!-- 语义色 -->
             <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource LayerFillColorDefault}"/>
             <SolidColorBrush x:Key="CardBrush" Color="{StaticResource CardBackground}"/>
+            <SolidColorBrush x:Key="SurfaceBrush" Color="#363636"/>
             <SolidColorBrush x:Key="SidebarBrush" Color="{StaticResource SidebarBackground}"/>
+            <SolidColorBrush x:Key="TitleBarBrush" Color="{StaticResource TitleBarBackground}"/>
             <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource SystemAccentColor}"/>
-            <SolidColorBrush x:Key="AccentLightBrush" Color="{StaticResource SystemAccentColorLight}"/>
+            <SolidColorBrush x:Key="AccentSubtleBrush" Color="#1A3A4D"/>
             <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextFillColorPrimary}"/>
             <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextFillColorSecondary}"/>
             <SolidColorBrush x:Key="TextTertiaryBrush" Color="{StaticResource TextFillColorTertiary}"/>
-            <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource CardStrokeColorDefault}"/>
-            <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource CardStrokeColorSecondary}"/>
+            <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource ControlStrokeColorDefault}"/>
+            <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource ControlStrokeColorSecondary}"/>
             
-            <!-- 特殊效果 -->
-            <SolidColorBrush x:Key="AcrylicBackgroundBrush" Color="#80000000"/>
-            <SolidColorBrush x:Key="MicaBackgroundBrush" Color="#202020"/>
-            
-            <!-- 按钮色 -->
-            <SolidColorBrush x:Key="ButtonBackground" Color="Transparent"/>
-            <SolidColorBrush x:Key="ButtonBackgroundHover" Color="#2A2A2A"/>
-            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#333333"/>
-            <SolidColorBrush x:Key="AccentButtonBackground" Color="{StaticResource SystemAccentColor}"/>
-            <SolidColorBrush x:Key="AccentButtonBackgroundHover" Color="{StaticResource SystemAccentColorDark}"/>
-            
-            <!-- 状态色画刷 -->
             <SolidColorBrush x:Key="StatusRunningBrush" Color="{StaticResource SystemSuccessColor}"/>
-            <SolidColorBrush x:Key="StatusStartingBrush" Color="{StaticResource SystemWarningColor}"/>
-            <SolidColorBrush x:Key="StatusStoppedBrush" Color="{StaticResource TextFillColorTertiary}"/>
+            <SolidColorBrush x:Key="StatusWarningBrush" Color="{StaticResource SystemWarningColor}"/>
             <SolidColorBrush x:Key="StatusErrorBrush" Color="{StaticResource SystemErrorColor}"/>
+            <SolidColorBrush x:Key="StatusStoppedBrush" Color="{StaticResource SystemCautionColor}"/>
+            
+            <SolidColorBrush x:Key="NavigationViewItemBackground" Color="Transparent"/>
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundHover" Color="#2A2A2A"/>
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelected" Color="#2D2D2D"/>
+            <SolidColorBrush x:Key="NavigationViewItemBorderSelected" Color="{StaticResource SystemAccentColor}"/>
+            
+            <SolidColorBrush x:Key="WindowCloseButtonHover" Color="#C42B1C"/>
+            <SolidColorBrush x:Key="WindowTitleBarButtonHover" Color="#2A2A2A"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+
+    <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
+    <CornerRadius x:Key="CardCornerRadius">8</CornerRadius>
+    <CornerRadius x:Key="WindowCornerRadius">8</CornerRadius>
     
-    <!-- 通用样式 -->
-    <x:Double x:Key="ControlCornerRadius">8</x:Double>
-    <x:Double x:Key="OverlayCornerRadius">12</x:Double>
-    <x:Double x:Key="CardCornerRadius">8</x:Double>
-    
-    <!-- 间距 -->
-    <x:Double x:Key="SpacingXSmall">4</x:Double>
-    <x:Double x:Key="SpacingSmall">8</x:Double>
-    <x:Double x:Key="SpacingMedium">16</x:Double>
-    <x:Double x:Key="SpacingLarge">24</x:Double>
-    <x:Double x:Key="SpacingXLarge">32</x:Double>
-    
-    <!-- 字号 -->
     <x:Double x:Key="FontSizeCaption">12</x:Double>
     <x:Double x:Key="FontSizeBody">14</x:Double>
     <x:Double x:Key="FontSizeSubtitle">16</x:Double>
     <x:Double x:Key="FontSizeTitle">20</x:Double>
-    <x:Double x:Key="FontSizeTitleLarge">24</x:Double>
-    <x:Double x:Key="FontSizeDisplay">32</x:Double>
+    <x:Double x:Key="FontSizeTitleLarge">28</x:Double>
     
-    <!-- 字重 -->
     <FontWeight x:Key="FontWeightNormal">Normal</FontWeight>
     <FontWeight x:Key="FontWeightMedium">Medium</FontWeight>
     <FontWeight x:Key="FontWeightSemiBold">SemiBold</FontWeight>
     <FontWeight x:Key="FontWeightBold">Bold</FontWeight>
+    
+    <StreamGeometry x:Key="GridIcon">M3 3v8h8V3H3zm6 6H5V5h4v4zm4-6v8h8V3h-8zm6 6h-4V5h4v4zM3 13v8h8v-8H3zm6 6H5v-4h4v4zm4-6v8h8v-8h-8zm6 6h-4v-4h4v4z</StreamGeometry>
+    <StreamGeometry x:Key="ServerIcon">M4 4h16v6H4V4zm2 2v2h12V6H6zm-2 6h16v6H4v-6zm2 2v2h12v-2H6z</StreamGeometry>
+    <StreamGeometry x:Key="ArrowDownloadIcon">M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3h-2zm-9-2.5l4 4 4-4-1.41-1.41L13 13.67V4h-2v9.67l-2.59-2.58L7 12.5z</StreamGeometry>
+    <StreamGeometry x:Key="CloudIcon">M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z</StreamGeometry>
+    <StreamGeometry x:Key="PeopleIcon">M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z</StreamGeometry>
+    <StreamGeometry x:Key="GlobeIcon">M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z</StreamGeometry>
+    <StreamGeometry x:Key="SettingsIcon">M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z</StreamGeometry>
+    <StreamGeometry x:Key="SignOutIcon">M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z</StreamGeometry>
+    <StreamGeometry x:Key="ChevronLeftIcon">M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z</StreamGeometry>
+    <StreamGeometry x:Key="ChevronRightIcon">M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z</StreamGeometry>
+    <StreamGeometry x:Key="AddIcon">M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z</StreamGeometry>
+    <StreamGeometry x:Key="SearchIcon">M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z</StreamGeometry>
+    <StreamGeometry x:Key="PlayIcon">M8 5v14l11-7z</StreamGeometry>
+    <StreamGeometry x:Key="StopIcon">M6 6h12v12H6z</StreamGeometry>
+    <StreamGeometry x:Key="RestartIcon">M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z</StreamGeometry>
+    <StreamGeometry x:Key="DeleteIcon">M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z</StreamGeometry>
+    <StreamGeometry x:Key="EditIcon">M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 000-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z</StreamGeometry>
+    <StreamGeometry x:Key="FolderIcon">M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z</StreamGeometry>
+    <StreamGeometry x:Key="TerminalIcon">M20 19V7H4v12h16m0-16c1.11 0 2 .89 2 2v14a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h16M7.5 13L11 9.5 7.5 6 6 7.5 8.5 10 6 12.5 7.5 14m4.5 0h4v2h-4v-2z</StreamGeometry>
+    <StreamGeometry x:Key="PlugConnectedIcon">M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z</StreamGeometry>
+    <StreamGeometry x:Key="BoxIcon">M12 2L2 7v10l10 5 10-5V7L12 2zm0 18.5L4 16V8.5l8 4v8zm8-4.5l-8 4v-8l8-4V16zm-7.98-9.23l6.97 3.49-6.99 3.49-6.97-3.49 6.99-3.49z</StreamGeometry>
+    <StreamGeometry x:Key="MinimizeIcon">M6 19h12v2H6z</StreamGeometry>
+    <StreamGeometry x:Key="MaximizeIcon">M4 4h16v16H4V4zm2 2v12h12V6H6z</StreamGeometry>
+    <StreamGeometry x:Key="RestoreIcon">M4 8h12v12H4V8zm2 2v8h8v-8H6zm4-6h10v10h-2V6h-8V4z</StreamGeometry>
+    <StreamGeometry x:Key="CloseIcon">M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z</StreamGeometry>
+    <StreamGeometry x:Key="MoreVerticalIcon">M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z</StreamGeometry>
 </ResourceDictionary>

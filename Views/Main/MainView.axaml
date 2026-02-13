@@ -1,0 +1,117 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Lattice.ViewModels"
+             x:Class="Lattice.Views.Main.MainView"
+             x:DataType="vm:MainViewModel">
+    
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="{DynamicResource SidebarBrush}" Width="200">
+            <Grid RowDefinitions="Auto,*,Auto">
+                <!-- Logo -->
+                <Border Grid.Row="0" Padding="16,12">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Border Width="24" Height="24" CornerRadius="4" 
+                                Background="{DynamicResource AccentBrush}">
+                            <TextBlock Text="L" FontSize="12" FontWeight="Bold" 
+                                       Foreground="White" HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="Lattice" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Navigation -->
+                <ScrollViewer Grid.Row="1">
+                    <StackPanel Spacing="2" Margin="8">
+                        <Button Command="{Binding NavigateToCommand}" CommandParameter="dashboard"
+                                Classes="nav-item" HorizontalAlignment="Stretch" Height="36">
+                            <Grid ColumnDefinitions="20,*">
+                                <PathIcon Grid.Column="0" Data="{StaticResource GridIcon}" Width="18" Height="18"
+                                          Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Grid.Column="1" Text="总览" Margin="12,0,0,0"/>
+                            </Grid>
+                        </Button>
+                        <Button Command="{Binding NavigateToCommand}" CommandParameter="instances"
+                                Classes="nav-item" HorizontalAlignment="Stretch" Height="36">
+                            <Grid ColumnDefinitions="20,*">
+                                <PathIcon Grid.Column="0" Data="{StaticResource ServerIcon}" Width="18" Height="18"
+                                          Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Grid.Column="1" Text="实例" Margin="12,0,0,0"/>
+                            </Grid>
+                        </Button>
+                        <Button Command="{Binding NavigateToCommand}" CommandParameter="downloads"
+                                Classes="nav-item" HorizontalAlignment="Stretch" Height="36">
+                            <Grid ColumnDefinitions="20,*">
+                                <PathIcon Grid.Column="0" Data="{StaticResource ArrowDownloadIcon}" Width="18" Height="18"
+                                          Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Grid.Column="1" Text="下载" Margin="12,0,0,0"/>
+                            </Grid>
+                        </Button>
+                        <Button Command="{Binding NavigateToCommand}" CommandParameter="nodes"
+                                Classes="nav-item" HorizontalAlignment="Stretch" Height="36">
+                            <Grid ColumnDefinitions="20,*">
+                                <PathIcon Grid.Column="0" Data="{StaticResource CloudIcon}" Width="18" Height="18"
+                                          Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Grid.Column="1" Text="节点" Margin="12,0,0,0"/>
+                            </Grid>
+                        </Button>
+                        <Button Command="{Binding NavigateToCommand}" CommandParameter="users"
+                                Classes="nav-item" HorizontalAlignment="Stretch" Height="36">
+                            <Grid ColumnDefinitions="20,*">
+                                <PathIcon Grid.Column="0" Data="{StaticResource PeopleIcon}" Width="18" Height="18"
+                                          Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Grid.Column="1" Text="用户" Margin="12,0,0,0"/>
+                            </Grid>
+                        </Button>
+                        <Button Command="{Binding NavigateToCommand}" CommandParameter="frp"
+                                Classes="nav-item" HorizontalAlignment="Stretch" Height="36">
+                            <Grid ColumnDefinitions="20,*">
+                                <PathIcon Grid.Column="0" Data="{StaticResource GlobeIcon}" Width="18" Height="18"
+                                          Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Grid.Column="1" Text="穿透" Margin="12,0,0,0"/>
+                            </Grid>
+                        </Button>
+                        <Button Command="{Binding NavigateToCommand}" CommandParameter="settings"
+                                Classes="nav-item" HorizontalAlignment="Stretch" Height="36">
+                            <Grid ColumnDefinitions="20,*">
+                                <PathIcon Grid.Column="0" Data="{StaticResource SettingsIcon}" Width="18" Height="18"
+                                          Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Grid.Column="1" Text="设置" Margin="12,0,0,0"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+                
+                <!-- Node Connection Status -->
+                <Border Grid.Row="2" Padding="12,8" Margin="8,0,8,8" CornerRadius="8"
+                        Background="{DynamicResource CardBrush}"
+                        BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                    <Grid ColumnDefinitions="Auto,*">
+                        <Border Width="8" Height="8" CornerRadius="4" Margin="0,0,8,0"
+                                Background="{DynamicResource StatusRunningBrush}"
+                                IsVisible="{Binding HasConnectedNode}"
+                                VerticalAlignment="Center"/>
+                        <Border Width="8" Height="8" CornerRadius="4" Margin="0,0,8,0"
+                                Background="{DynamicResource StatusStoppedBrush}"
+                                IsVisible="{Binding !HasConnectedNode}"
+                                VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="{Binding ConnectedNodeName}" 
+                                   FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}"
+                                   TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+        
+        <!-- Main Content -->
+        <ContentControl Grid.Column="1" Content="{Binding CurrentView}"/>
+    </Grid>
+</UserControl>

@@ -5,92 +5,204 @@
              x:DataType="vm:ServerDetailViewModel">
     
     <Grid Background="{DynamicResource BackgroundBrush}">
-        <ScrollViewer Padding="32">
-            <StackPanel Spacing="24" MaxWidth="800">
-                <!-- Header -->
-                <StackPanel Orientation="Horizontal" Spacing="12">
-                    <Button Content="← Back" Command="{Binding GoBackCommand}"
-                            Classes="lattice-ghost"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <Border Grid.Row="0" Padding="24,12" Background="{DynamicResource BackgroundBrush}"
+                BorderBrush="{DynamicResource DividerBrush}" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Button Command="{Binding GoBackCommand}" Classes="subtle" Height="32" Padding="8,0">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <PathIcon Data="{StaticResource ChevronLeftIcon}" Width="16" Height="16"/>
+                        <TextBlock Text="返回"/>
+                    </StackPanel>
+                </Button>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding Instance.Name}" Classes="subtitle" VerticalAlignment="Center"/>
+                    <Border CornerRadius="4" Padding="8,2"
+                            Background="{DynamicResource StatusRunningBrush}"
+                            IsVisible="{Binding Instance.IsRunning}">
+                        <TextBlock Text="运行中" FontSize="11" Foreground="White"/>
+                    </Border>
+                    <Border CornerRadius="4" Padding="8,2"
+                            Background="{DynamicResource StatusStoppedBrush}"
+                            IsVisible="{Binding Instance.IsStopped}">
+                        <TextBlock Text="已停止" FontSize="11" Foreground="White"/>
+                    </Border>
                 </StackPanel>
+                
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                    <Button Command="{Binding StartCommand}" Classes="success" Height="32" Padding="12,0"
+                            IsVisible="{Binding Instance.IsStopped}" ToolTip.Tip="启动">
+                        <PathIcon Data="{StaticResource PlayIcon}" Width="14" Height="14"/>
+                    </Button>
+                    <Button Command="{Binding StopCommand}" Classes="danger" Height="32" Padding="12,0"
+                            IsVisible="{Binding Instance.IsRunning}" ToolTip.Tip="停止">
+                        <PathIcon Data="{StaticResource StopIcon}" Width="14" Height="14"/>
+                    </Button>
+                    <Button Command="{Binding RestartCommand}" Classes="outline" Height="32" Padding="12,0"
+                            IsVisible="{Binding Instance.IsRunning}" ToolTip.Tip="重启">
+                        <PathIcon Data="{StaticResource RestartIcon}" Width="14" Height="14"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
 
-                <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="2"/>
+        <!-- Tabs -->
+        <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}">
+            <StackPanel Orientation="Horizontal" Margin="24,0" Spacing="0">
+                <Button Content="控制台" Command="{Binding SelectTabCommand}" CommandParameter="0"
+                        Classes="nav-item" Height="40" Padding="16,0">
+                </Button>
+                <Button Content="配置" Command="{Binding SelectTabCommand}" CommandParameter="1"
+                        Classes="nav-item" Height="40" Padding="16,0">
+                </Button>
+                <Button Content="插件/模组" Command="{Binding SelectTabCommand}" CommandParameter="2"
+                        Classes="nav-item" Height="40" Padding="16,0">
+                </Button>
+            </StackPanel>
+        </Border>
 
-                <!-- Server Card -->
-                <Border Classes="lattice-card" IsVisible="{Binding Server, Converter={x:Static ObjectConverters.IsNotNull}}">
-                    <StackPanel Spacing="20">
-                        <!-- Server Info -->
-                        <Grid ColumnDefinitions="*,Auto">
-                            <StackPanel Spacing="8">
-                                <TextBlock Text="{Binding Server.Name}" Classes="title-large"/>
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock Classes="caption">
-                                        <Run Text="{Binding Server.Type}"/>
-                                        <Run Text="•"/>
-                                        <Run Text="{Binding Server.Version}"/>
-                                    </TextBlock>
-                                </StackPanel>
-                            </StackPanel>
-                            <Border Classes="status-badge status-badge" 
-                                    VerticalAlignment="Center"
-                                    CornerRadius="8" Padding="14,6">
-                                <TextBlock Text="{Binding Server.Status}" 
-                                           Foreground="White" FontSize="14"
-                                           FontWeight="Medium"/>
-                            </Border>
-                        </Grid>
+        <!-- Content -->
+        <Grid Grid.Row="2">
+            <!-- Loading -->
+            <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="2" VerticalAlignment="Top"/>
+            
+            <!-- Error -->
+            <Border Background="{DynamicResource StatusErrorBrush}" CornerRadius="8" Padding="16,12" Margin="24"
+                    IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                    VerticalAlignment="Top">
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="White"/>
+            </Border>
 
-                        <!-- Stats -->
-                        <Grid ColumnDefinitions="*,24,*" Margin="0,8,0,0">
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Text="Port" Classes="caption"/>
-                                <TextBlock Text="{Binding Server.Port}" 
-                                           Classes="body" FontWeight="Medium"
-                                           Margin="0,4,0,0"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2">
-                                <TextBlock Text="Max Memory" Classes="caption"/>
-                                <TextBlock Text="{Binding Server.MaxMemory}" 
-                                           Classes="body" FontWeight="Medium"
-                                           Margin="0,4,0,0"/>
-                            </StackPanel>
-                        </Grid>
+            <!-- Tab 0: Console -->
+            <Grid IsVisible="{Binding IsConsoleTab}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <Border Grid.Row="0" Background="{DynamicResource CardBrush}" CornerRadius="8" 
+                        Margin="24" Padding="0">
+                    <ScrollViewer x:Name="ConsoleScroll">
+                        <TextBox Text="{Binding ConsoleOutput}" IsReadOnly="True"
+                                 Background="Transparent" BorderThickness="0"
+                                 FontFamily="Consolas,Monaco,monospace" FontSize="12"
+                                 AcceptsReturn="True" TextWrapping="Wrap"
+                                 Foreground="{DynamicResource TextPrimaryBrush}"
+                                 Padding="16"/>
+                    </ScrollViewer>
+                </Border>
+                
+                <Border Grid.Row="1" Padding="24,0,24,24">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBox Text="{Binding CommandInput}" Watermark="输入命令..."
+                                 Classes="input" Height="40"
+                                 KeyDown="OnCommandKeyDown"/>
+                        <Button Grid.Column="1" Command="{Binding SendCommandCommand}"
+                                Classes="accent" Height="40" Margin="8,0,0,0">
+                            <TextBlock Text="发送"/>
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
 
-                        <Separator Classes="lattice"/>
-
-                        <!-- Actions -->
+            <!-- Tab 1: Config -->
+            <ScrollViewer IsVisible="{Binding IsConfigTab}">
+                <StackPanel Margin="24" Spacing="16">
+                    <Border Background="{DynamicResource CardBrush}" CornerRadius="8" Padding="20">
                         <StackPanel Spacing="16">
-                            <TextBlock Text="Quick Actions" Classes="body" FontWeight="Medium"/>
-                            <StackPanel Orientation="Horizontal" Spacing="12">
-                                <Button Content="Open Console" Command="{Binding OpenConsoleCommand}"
-                                        Classes="lattice-accent"/>
-                                <Button Content="Plugin Market" Command="{Binding OpenMarketCommand}"
-                                        Classes="lattice-accent"/>
-                                <Button Content="Start" Command="{Binding StartCommand}"
-                                        Classes="lattice-success"/>
-                                <Button Content="Stop" Command="{Binding StopCommand}"
-                                        Classes="lattice-danger"/>
-                                <Button Content="Restart" Command="{Binding RestartCommand}"
-                                        Classes="lattice-ghost"/>
-                            </StackPanel>
+                            <TextBlock Text="服务器配置" Classes="subtitle"/>
+                            
+                            <Grid ColumnDefinitions="120,*">
+                                <TextBlock Text="服务器名称" VerticalAlignment="Center"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Instance.Name}"
+                                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </Grid>
+                            
+                            <Grid ColumnDefinitions="120,*">
+                                <TextBlock Text="服务端类型" VerticalAlignment="Center"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Instance.Type}"
+                                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </Grid>
+                            
+                            <Grid ColumnDefinitions="120,*">
+                                <TextBlock Text="版本" VerticalAlignment="Center"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Instance.Version}"
+                                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </Grid>
+                            
+                            <Grid ColumnDefinitions="120,*">
+                                <TextBlock Text="端口" VerticalAlignment="Center"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Instance.Port}"
+                                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </Grid>
                         </StackPanel>
-
-                        <Separator Classes="lattice"/>
-
-                        <!-- Danger Zone -->
+                    </Border>
+                    
+                    <!-- Danger Zone -->
+                    <Border Background="{DynamicResource CardBrush}" CornerRadius="8" Padding="20"
+                            BorderBrush="{DynamicResource StatusErrorBrush}" BorderThickness="1">
                         <StackPanel Spacing="12">
-                            <TextBlock Text="Danger Zone" Classes="body" FontWeight="Medium"
+                            <TextBlock Text="危险操作" FontWeight="SemiBold"
                                        Foreground="{DynamicResource StatusErrorBrush}"/>
-                            <Button Content="Delete Server" Command="{Binding DeleteCommand}"
-                                    Classes="lattice-danger"/>
+                            <TextBlock Text="删除服务器将永久移除所有数据" FontSize="12"
+                                       Foreground="{DynamicResource TextTertiaryBrush}"/>
+                            <Button Content="删除服务器" Classes="danger" HorizontalAlignment="Left"/>
                         </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Tab 2: Plugins/Mods -->
+            <Grid IsVisible="{Binding IsPluginsTab}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <!-- Toggle -->
+                <Border Grid.Row="0" Padding="24,16,24,0">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ToggleButton Content="插件" IsChecked="{Binding ShowPlugins}" Height="32" Padding="16,0"
+                                     CornerRadius="4"/>
+                        <ToggleButton Content="模组" IsChecked="{Binding !ShowPlugins}" Height="32" Padding="16,0"
+                                     CornerRadius="4"/>
                     </StackPanel>
                 </Border>
-
-                <!-- Error -->
-                <TextBlock Text="{Binding ErrorMessage}" 
-                           Foreground="{DynamicResource StatusErrorBrush}"
-                           IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-            </StackPanel>
-        </ScrollViewer>
+                
+                <!-- List -->
+                <ScrollViewer Grid.Row="1">
+                    <ItemsControl ItemsSource="{Binding Plugins}" Margin="24">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{DynamicResource CardBrush}" CornerRadius="8" 
+                                        Padding="16" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                        <PathIcon Data="{StaticResource BoxIcon}" Width="20" Height="20"
+                                                  Foreground="{DynamicResource AccentBrush}"/>
+                                        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" FontWeight="Medium"/>
+                                            <TextBlock Text="{Binding Version}" FontSize="11"
+                                                       Foreground="{DynamicResource TextTertiaryBrush}"/>
+                                        </StackPanel>
+                                        <ToggleSwitch Grid.Column="2" IsChecked="{Binding Enabled}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

@@ -65,7 +65,7 @@
             <Grid ColumnDefinitions="*,Auto">
                 <TextBox Grid.Column="0" 
                          Watermark="Enter command..." 
-                         Text="{Binding CommandInput}"
+                         Text="{Binding CommandInput, Mode=TwoWay}"
                          CornerRadius="8" Padding="14,12"
                          KeyDown="OnCommandKeyDown"/>
                 <Button Grid.Column="1" Content="Send" 

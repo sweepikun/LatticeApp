@@ -4,60 +4,64 @@
              x:Class="Lattice.Views.Dashboard.DashboardView"
              x:DataType="vm:DashboardViewModel">
     
-    <Grid Background="#1a1a2e">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        
-        <!-- Sidebar -->
-        <Border Grid.Column="0" Background="#16213e" Padding="16">
-            <StackPanel Spacing="8">
-                <TextBlock Text="Lattice" FontSize="24" FontWeight="Bold"
-                           Foreground="#4cc9f0" Margin="0,0,0,24"/>
-                
-                <Button Content="Servers" HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left" Padding="12,8"
-                        Background="#1a1a2e" Foreground="White" CornerRadius="4"/>
-                <Button Content="Console" HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left" Padding="12,8"
-                        Background="Transparent" Foreground="#888" CornerRadius="4"/>
-                <Button Content="Files" HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left" Padding="12,8"
-                        Background="Transparent" Foreground="#888" CornerRadius="4"/>
-                <Button Content="Plugins" HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left" Padding="12,8"
-                        Background="Transparent" Foreground="#888" CornerRadius="4"/>
-                <Button Content="AI Assistant" HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left" Padding="12,8"
-                        Background="Transparent" Foreground="#888" CornerRadius="4"/>
-                <Button Content="Settings" HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left" Padding="12,8"
-                        Background="Transparent" Foreground="#888" CornerRadius="4"/>
-                
-                <Border Height="1" Background="#2a2a4a" Margin="0,16"/>
-                
-                <TextBlock Text="{Binding CurrentUser.Username}" Foreground="#888"
-                           FontSize="12" Margin="0,8"/>
-                <TextBlock Text="{Binding CurrentUser.Role}" Foreground="#4cc9f0"
-                           FontSize="11"/>
-                
-                <Button Content="Sign Out" Command="{Binding LogoutCommand}"
-                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                        Padding="12,8" Background="Transparent" Foreground="#ff6b6b"
-                        CornerRadius="4" Margin="0,16,0,0"/>
-            </StackPanel>
-        </Border>
-        
-        <!-- Main Content -->
-        <Border Grid.Column="1" Padding="24">
-            <StackPanel Spacing="16">
-                <TextBlock Text="Servers" FontSize="24" FontWeight="SemiBold" Foreground="White"/>
-                <TextBlock Text="No servers created yet. Create your first server to get started."
-                           Foreground="#888"/>
-                <Button Content="+ Create Server" HorizontalAlignment="Left"
-                        Background="#4361ee" Foreground="White" CornerRadius="4" Padding="16,10"/>
-            </StackPanel>
-        </Border>
-    </Grid>
+    <ScrollViewer Background="{DynamicResource BackgroundBrush}">
+        <StackPanel Margin="32" Spacing="24">
+            <TextBlock Text="总览" Classes="title-large"/>
+            
+            <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}"
+                         Height="2" HorizontalAlignment="Stretch"/>
+            
+            <TextBlock Text="{Binding ErrorMessage}" 
+                       Foreground="{DynamicResource StatusErrorBrush}"
+                       IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+            
+            <!-- Stats Grid -->
+            <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto">
+                <Border Grid.Column="0" Classes="lattice-card" Margin="0,0,8,0">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="🖥️" FontSize="24"/>
+                        <TextBlock Text="{Binding TotalServers}" FontSize="32" FontWeight="Bold"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        <TextBlock Text="服务器总数" Foreground="{DynamicResource TextTertiaryBrush}"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Classes="lattice-card" Margin="8,0">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="🟢" FontSize="24"/>
+                        <TextBlock Text="{Binding RunningServers}" FontSize="32" FontWeight="Bold"
+                                   Foreground="{DynamicResource StatusRunningBrush}"/>
+                        <TextBlock Text="运行中" Foreground="{DynamicResource TextTertiaryBrush}"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Classes="lattice-card" Margin="8,0">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="👥" FontSize="24"/>
+                        <TextBlock Text="{Binding TotalUsers}" FontSize="32" FontWeight="Bold"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        <TextBlock Text="用户数" Foreground="{DynamicResource TextTertiaryBrush}"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="3" Classes="lattice-card" Margin="8,0,0,0">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="🌐" FontSize="24"/>
+                        <TextBlock Text="{Binding TotalNodes}" FontSize="32" FontWeight="Bold"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        <TextBlock Text="节点数" Foreground="{DynamicResource TextTertiaryBrush}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            
+            <!-- System Info -->
+            <Border Classes="lattice-card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="系统信息" FontSize="18" FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    <Grid ColumnDefinitions="120,*">
+                        <TextBlock Grid.Column="0" Text="运行时间" Foreground="{DynamicResource TextTertiaryBrush}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Uptime}" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

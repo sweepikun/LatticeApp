@@ -4,15 +4,17 @@
              RequestedThemeVariant="Dark">
     <Application.Styles>
         <FluentTheme />
-        <SimpleTheme />
+        <StyleInclude Source="/Styles/Controls.axaml"/>
     </Application.Styles>
     
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="/Styles/Themes.axaml"/>
-                <ResourceInclude Source="/Styles/Controls.axaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
+            <FontFamily x:Key="ContentFontFamily">Microsoft YaHei UI, Segoe UI, Arial</FontFamily>
+            <FontFamily x:Key="ContentFontFamilyLight">Microsoft YaHei UI, Segoe UI Light, Arial</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

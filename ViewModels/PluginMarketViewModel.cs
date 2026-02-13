@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -58,6 +59,8 @@ public partial class PluginMarketViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<MarketItem> _results = new();
 
+    public bool HasResults => Results.Count > 0;
+
     [ObservableProperty]
     private string _searchQuery = string.Empty;
 
@@ -95,8 +98,10 @@ public partial class PluginMarketViewModel : ObservableObject
     {
         _authService = authService;
         _navigationService = navigationService;
-        _apiService = new ApiService(_authService);
+        _apiService = new ApiService(_authService.ServerAddress);
         _serverId = serverId;
+        
+        Results.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HasResults));
     }
 
     [RelayCommand]
@@ -111,7 +116,7 @@ public partial class PluginMarketViewModel : ObservableObject
 
         try
         {
-            var items = await _apiService.SearchMarketAsync(_serverId, SelectedSource, SearchQuery, SelectedType);
+            var items = await _apiService.SearchMarketAsync(_serverId, _authService.AccessToken, SelectedSource, SearchQuery, SelectedType);
             if (items != null)
             {
                 foreach (var item in items)
@@ -149,7 +154,7 @@ public partial class PluginMarketViewModel : ObservableObject
 
         try
         {
-            var versions = await _apiService.GetMarketVersionsAsync(_serverId, item.Source, item.Id);
+            var versions = await _apiService.GetMarketVersionsAsync(_serverId, _authService.AccessToken, item.Source, item.Id);
             if (versions != null)
             {
                 foreach (var v in versions)
@@ -187,6 +192,7 @@ public partial class PluginMarketViewModel : ObservableObject
         {
             var result = await _apiService.DownloadFromMarketAsync(
                 _serverId,
+                _authService.AccessToken,
                 SelectedItem.Source,
                 SelectedItem.Id,
                 version.Id,

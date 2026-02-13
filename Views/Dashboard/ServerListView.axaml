@@ -10,10 +10,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <!-- Sidebar -->
         <Border Grid.Column="0" Classes="lattice-sidebar" Padding="16">
             <StackPanel Spacing="4">
-                <!-- Logo -->
                 <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,24">
                     <Border Width="36" Height="36" CornerRadius="8" 
                             Background="{DynamicResource AccentBrush}">
@@ -26,73 +24,86 @@
                                VerticalAlignment="Center"/>
                 </StackPanel>
                 
-                <!-- Navigation -->
                 <Button Content="Servers" Classes="nav-item active"
                         HorizontalAlignment="Stretch"/>
-                <Button Content="Console" Classes="nav-item"
-                        HorizontalAlignment="Stretch"/>
-                <Button Content="Files" Classes="nav-item"
-                        HorizontalAlignment="Stretch"/>
-                <Button Content="Plugins" Classes="nav-item"
-                        HorizontalAlignment="Stretch"/>
-                <Button Content="AI Assistant" Classes="nav-item"
-                        HorizontalAlignment="Stretch"/>
+                <Button Content="Users" Command="{Binding ManageUsersCommand}"
+                        Classes="nav-item" HorizontalAlignment="Stretch"
+                        IsVisible="{Binding IsAdmin}"/>
                 <Button Content="Settings" Classes="nav-item"
                         HorizontalAlignment="Stretch"/>
                 
-                <!-- Divider -->
                 <Border Height="1" Background="{DynamicResource DividerBrush}" 
                         Margin="0,16"/>
                 
-                <!-- User info -->
-                <StackPanel Margin="4,8">
-                    <TextBlock Text="{Binding CurrentUser.Username}" 
+                <StackPanel Margin="4,8" IsVisible="{Binding IsConnected}">
+                    <TextBlock Text="{Binding UserName}" 
                                Foreground="{DynamicResource TextSecondaryBrush}"
                                FontSize="13"/>
-                    <TextBlock Text="{Binding CurrentUser.Role}" 
+                    <TextBlock Text="Admin" 
                                Foreground="{DynamicResource AccentBrush}"
-                               FontSize="12" Margin="0,2,0,0"/>
+                               FontSize="12" Margin="0,2,0,0"
+                               IsVisible="{Binding IsAdmin}"/>
                 </StackPanel>
                 
                 <Button Content="Sign out" Command="{Binding LogoutCommand}"
                         Classes="nav-item" HorizontalAlignment="Stretch"
-                        Margin="0,8,0,0"/>
+                        Margin="0,8,0,0" IsVisible="{Binding IsConnected}"/>
             </StackPanel>
         </Border>
         
-        <!-- Main Content -->
         <Border Grid.Column="1" Padding="32">
             <ScrollViewer>
                 <StackPanel Spacing="24">
-                    <!-- Header -->
-                    <Grid ColumnDefinitions="*,Auto">
+                    <!-- Not Connected State -->
+                    <StackPanel Spacing="16" HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" Margin="0,64"
+                                IsVisible="{Binding !IsConnected}">
+                        <Border Width="80" Height="80" CornerRadius="20"
+                                Background="{DynamicResource CardBrush}"
+                                HorizontalAlignment="Center">
+                            <TextBlock Text="🔗" FontSize="36" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="No Backend Connected" Classes="title-large"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Connect to a Lattice backend server to manage your Minecraft servers" 
+                                   Classes="caption"
+                                   HorizontalAlignment="Center" TextAlignment="Center"
+                                   MaxWidth="300"/>
+                        <Button Content="+ Connect to Backend" Command="{Binding ConnectCommand}"
+                                Classes="lattice-accent"
+                                HorizontalAlignment="Center" Margin="0,16,0,0"/>
+                    </StackPanel>
+
+                    <!-- Connected State -->
+                    <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding IsConnected}">
                         <StackPanel Grid.Column="0">
                             <TextBlock Text="Servers" Classes="title-large"/>
                             <TextBlock Text="Manage your Minecraft servers" 
                                        Classes="caption" Margin="0,4,0,0"/>
                         </StackPanel>
                         <Button Content="+ Create Server" Command="{Binding CreateServerCommand}"
-                                Classes="lattice-accent" VerticalAlignment="Center"/>
+                                Classes="lattice-accent" VerticalAlignment="Center"
+                                IsVisible="{Binding IsAdmin}"/>
                     </Grid>
 
-                    <!-- Error Message -->
                     <TextBlock Text="{Binding ErrorMessage}" 
                                Foreground="{DynamicResource StatusErrorBrush}"
                                IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
 
-                    <!-- Loading -->
                     <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}"
                                  Height="2" HorizontalAlignment="Stretch"/>
 
-                    <!-- Server List -->
-                    <ItemsControl ItemsSource="{Binding Servers}">
+                    <ItemsControl ItemsSource="{Binding Servers}" IsVisible="{Binding IsConnected}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Classes="lattice-card" Margin="0,0,0,12"
-                                        PointerPressed="ServerItem_PointerPressed"
-                                        Cursor="Hand">
+                                <Button Command="{Binding $parent[ItemsControl].((vm:ServerListViewModel)DataContext).SelectServerCommand}"
+                                        CommandParameter="{Binding}"
+                                        Classes="lattice-card" HorizontalAlignment="Stretch"
+                                        Margin="0,0,0,12" Padding="16">
                                     <Grid ColumnDefinitions="*,Auto">
-                                        <StackPanel Spacing="4">
+                                        <StackPanel Spacing="4" HorizontalAlignment="Left">
                                             <TextBlock Text="{Binding Name}" 
                                                        Classes="title"
                                                        FontSize="16"/>
@@ -107,25 +118,21 @@
                                                 </TextBlock>
                                             </StackPanel>
                                         </StackPanel>
-                                        <Border Classes="status-badge" 
+                                        <Border Classes="status-badge status-stopped" 
                                                 VerticalAlignment="Center">
-                                            <Border.Classes>
-                                                <x:String x:Key="status-stopped">status-stopped</x:String>
-                                            </Border.Classes>
                                             <TextBlock Text="{Binding Status}" 
                                                        Foreground="White" FontSize="12"
                                                        FontWeight="Medium"/>
                                         </Border>
                                     </Grid>
-                                </Border>
+                                </Button>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
-                    <!-- Empty State -->
                     <StackPanel Spacing="16" HorizontalAlignment="Center" 
                                 VerticalAlignment="Center" Margin="0,64"
-                                IsVisible="{Binding Servers.Count, Converter={x:Static ObjectConverters.AreEqual}, ConverterParameter=0}">
+                                IsVisible="{Binding ShowEmptyState}">
                         <Border Width="64" Height="64" CornerRadius="16"
                                 Background="{DynamicResource CardBrush}"
                                 HorizontalAlignment="Center">
@@ -140,7 +147,8 @@
                                    HorizontalAlignment="Center"/>
                         <Button Content="Create Server" Command="{Binding CreateServerCommand}"
                                 Classes="lattice-accent"
-                                HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                                HorizontalAlignment="Center" Margin="0,8,0,0"
+                                IsVisible="{Binding IsAdmin}"/>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>

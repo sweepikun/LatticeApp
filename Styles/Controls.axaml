@@ -1,104 +1,108 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <Styles.Resources>
+        <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
+        <CornerRadius x:Key="CardCornerRadius">8</CornerRadius>
+        <x:Double x:Key="FontSizeCaption">12</x:Double>
+        <x:Double x:Key="FontSizeBody">14</x:Double>
+        <x:Double x:Key="FontSizeSubtitle">16</x:Double>
+        <x:Double x:Key="FontSizeTitle">20</x:Double>
+        <x:Double x:Key="FontSizeTitleLarge">28</x:Double>
+        <FontWeight x:Key="FontWeightNormal">Normal</FontWeight>
+        <FontWeight x:Key="FontWeightMedium">Medium</FontWeight>
+        <FontWeight x:Key="FontWeightSemiBold">SemiBold</FontWeight>
+        <FontWeight x:Key="FontWeightBold">Bold</FontWeight>
+    </Styles.Resources>
 
-    <!-- WinUI3风格按钮 -->
-    <Style Selector="Button.lattice-accent">
-        <Setter Property="Background" Value="{DynamicResource AccentButtonBackground}"/>
+    <!-- Button Styles -->
+    <Style Selector="Button.accent">
+        <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
-        <Setter Property="Padding" Value="16,10"/>
+        <Setter Property="Padding" Value="16,8"/>
         <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
         <Setter Property="FontWeight" Value="{StaticResource FontWeightMedium}"/>
         <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Transitions">
-            <Transitions>
-                <DoubleTransition Property="Opacity" Duration="0:0:0.1"/>
-            </Transitions>
-        </Setter>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
-    <Style Selector="Button.lattice-accent:pointerover">
-        <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundHover}"/>
+    <Style Selector="Button.accent:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
         <Setter Property="Opacity" Value="0.9"/>
     </Style>
-    <Style Selector="Button.lattice-accent:pressed">
+    <Style Selector="Button.accent:pressed /template/ ContentPresenter">
         <Setter Property="Opacity" Value="0.8"/>
     </Style>
 
-    <Style Selector="Button.lattice-ghost">
+    <Style Selector="Button.subtle">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
         <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
-    <Style Selector="Button.lattice-ghost:pointerover">
-        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundHover}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+    <Style Selector="Button.subtle:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource NavigationViewItemBackgroundHover}"/>
     </Style>
 
-    <Style Selector="Button.lattice-danger">
+    <Style Selector="Button.outline">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+    <Style Selector="Button.outline:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource NavigationViewItemBackgroundHover}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TextSecondaryBrush}"/>
+    </Style>
+
+    <Style Selector="Button.danger">
         <Setter Property="Background" Value="{DynamicResource StatusErrorBrush}"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
         <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style Selector="Button.danger:pointerover /template/ ContentPresenter">
+        <Setter Property="Opacity" Value="0.9"/>
     </Style>
 
-    <Style Selector="Button.lattice-success">
+    <Style Selector="Button.success">
         <Setter Property="Background" Value="{DynamicResource StatusRunningBrush}"/>
-        <Setter Property="Foreground" Value="#1A1A1A"/>
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
         <Setter Property="Padding" Value="12,8"/>
-        <Setter Property="Cursor" Value="Hand"/>
-    </Style>
-
-    <!-- 卡片容器 -->
-    <Style Selector="Border.lattice-card">
-        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
-        <Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="{StaticResource SpacingMedium}"/>
-    </Style>
-
-    <!-- 侧边栏样式 -->
-    <Style Selector="Border.lattice-sidebar">
-        <Setter Property="Background" Value="{DynamicResource SidebarBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}"/>
-        <Setter Property="BorderThickness" Value="0,0,1,0"/>
-    </Style>
-
-    <!-- 输入框 -->
-    <Style Selector="TextBox.lattice-input">
-        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
-        <Setter Property="Padding" Value="12,10"/>
         <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
-    </Style>
-    <Style Selector="TextBox.lattice-input:focus /template/ PART_BorderElement">
-        <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
-        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
-    <!-- 状态标签 -->
-    <Style Selector="Border.status-badge">
-        <Setter Property="CornerRadius" Value="6"/>
-        <Setter Property="Padding" Value="10,4"/>
+    <Style Selector="Button.icon-button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
-    <Style Selector="Border.status-running">
-        <Setter Property="Background" Value="{DynamicResource StatusRunningBrush}"/>
+    <Style Selector="Button.icon-button:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource NavigationViewItemBackgroundHover}"/>
     </Style>
-    <Style Selector="Border.status-starting">
-        <Setter Property="Background" Value="{DynamicResource StatusStartingBrush}"/>
-    </Style>
-    <Style Selector="Border.status-stopped">
-        <Setter Property="Background" Value="{DynamicResource StatusStoppedBrush}"/>
+    <Style Selector="Button.icon-button:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource BorderBrush}"/>
     </Style>
 
-    <!-- 导航按钮 -->
+    <!-- Navigation Item -->
     <Style Selector="Button.nav-item">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
@@ -107,41 +111,170 @@
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
         <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
-    <Style Selector="Button.nav-item:pointerover">
-        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundHover}"/>
+    <Style Selector="Button.nav-item:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource NavigationViewItemBackgroundHover}"/>
     </Style>
-    <Style Selector="Button.nav-item.active">
-        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+    <Style Selector="Button.nav-item:selected">
+        <Setter Property="Background" Value="{DynamicResource NavigationViewItemBackgroundSelected}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource NavigationViewItemBorderSelected}"/>
+        <Setter Property="BorderThickness" Value="2,0,0,0"/>
     </Style>
 
-    <!-- 标题文字 -->
+    <!-- Card -->
+    <Style Selector="Border.card">
+        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+        <Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="16"/>
+    </Style>
+
+    <!-- Input -->
+    <Style Selector="TextBox.input">
+        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
+    </Style>
+
+    <Style Selector="ComboBox.input">
+        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
+    </Style>
+
+    <!-- Status Badge -->
+    <Style Selector="Border.status-badge">
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Padding" Value="8,4"/>
+    </Style>
+    <Style Selector="Border.status-running">
+        <Setter Property="Background" Value="{DynamicResource StatusRunningBrush}"/>
+    </Style>
+    <Style Selector="Border.status-warning">
+        <Setter Property="Background" Value="{DynamicResource StatusWarningBrush}"/>
+    </Style>
+    <Style Selector="Border.status-error">
+        <Setter Property="Background" Value="{DynamicResource StatusErrorBrush}"/>
+    </Style>
+    <Style Selector="Border.status-stopped">
+        <Setter Property="Background" Value="{DynamicResource StatusStoppedBrush}"/>
+    </Style>
+
+    <!-- Typography -->
     <Style Selector="TextBlock.title-large">
         <Setter Property="FontSize" Value="{StaticResource FontSizeTitleLarge}"/>
         <Setter Property="FontWeight" Value="{StaticResource FontWeightBold}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
     </Style>
-
     <Style Selector="TextBlock.title">
         <Setter Property="FontSize" Value="{StaticResource FontSizeTitle}"/>
         <Setter Property="FontWeight" Value="{StaticResource FontWeightSemiBold}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
     </Style>
-
+    <Style Selector="TextBlock.subtitle">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSubtitle}"/>
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightSemiBold}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+    </Style>
     <Style Selector="TextBlock.body">
         <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
     </Style>
-
+    <Style Selector="TextBlock.body-strong">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightSemiBold}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+    </Style>
     <Style Selector="TextBlock.caption">
         <Setter Property="FontSize" Value="{StaticResource FontSizeCaption}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextTertiaryBrush}"/>
     </Style>
 
-    <!-- 分割线 -->
-    <Style Selector="Separator.lattice">
+    <!-- Tab -->
+    <Style Selector="TabItem.fluent-tab">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+        <Setter Property="Padding" Value="16,12"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+    <Style Selector="TabItem.fluent-tab:selected">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightSemiBold}"/>
+    </Style>
+
+    <!-- Legacy aliases -->
+    <Style Selector="Button.lattice-accent">
+        <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
+        <Setter Property="Padding" Value="16,8"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style Selector="Button.lattice-ghost">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style Selector="Button.lattice-secondary">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+    <Style Selector="Button.lattice-danger">
+        <Setter Property="Background" Value="{DynamicResource StatusErrorBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style Selector="Button.lattice-success">
+        <Setter Property="Background" Value="{DynamicResource StatusRunningBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style Selector="Border.lattice-card">
+        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+        <Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="16"/>
+    </Style>
+    <Style Selector="TextBox.lattice-input">
+        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
+        <Setter Property="Padding" Value="12,8"/>
+    </Style>
+
+    <!-- Sidebar -->
+    <Style Selector="Border.sidebar">
+        <Setter Property="Background" Value="{DynamicResource SidebarBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}"/>
+        <Setter Property="BorderThickness" Value="0,0,1,0"/>
+    </Style>
+
+    <Style Selector="Separator.divider">
         <Setter Property="Background" Value="{DynamicResource DividerBrush}"/>
         <Setter Property="Margin" Value="0,8"/>
     </Style>
-</ResourceDictionary>
+</Styles>
